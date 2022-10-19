@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.meng.dao.SelectUserDao">
+
+    <resultMap id="BaseResultMap" type="com.meng.domain.User">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="id" property="id" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="age" property="age" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--User getUserById(Long id);-->
+    <select id="getUserById" parameterType="Long" resultMap="BaseResultMap">
+        select id, name, age from tbl_mybatis_user where id = #{id}
+    </select>
+
+    <!--User getUserByNameAndAge(String name, int age);-->
+    <select id="getUserByNameAndAge" resultMap="BaseResultMap">
+        <!-- select id, name, age from tbl_mybatis_user where name = #{param1} and age = #{param2} -->
+        <!-- select id, name, age from tbl_mybatis_user where name = '${arg0}' and age = '${arg1}' -->
+
+          select id, name, age from tbl_mybatis_user where name = #{arg0} and age = #{arg1}
+
+    </select>
+
+    <!--User getUserByNameAndAge2(@Param("name") String name, @Param("age") int age);-->
+    <select id="getUserByNameAndAge2" resultMap="BaseResultMap">
+          select id, name, age from tbl_mybatis_user where name = #{name} and age = #{age}
+    </select>
+
+    <!--User getUserByUser(User user);-->
+    <select id="getUserByUser" resultMap="BaseResultMap">
+          select id, name, age from tbl_mybatis_user where name = #{name} and age = #{age}
+    </select>
+
+    <!--User getUserBySelective(User user);-->
+    <select id="getUserBySelective" resultMap="BaseResultMap">
+          select id, name, age from tbl_mybatis_user where name = #{name} and age = #{age}
+    </select>
+
+    <!--List<User> getUsersByName(User user);-->
+    <select id="getUsersByName" resultMap="BaseResultMap">
+          <!-- select id, name, age from tbl_mybatis_user where name like "%"#{name}"%" -->
+          <!-- select id, name, age from tbl_mybatis_user where name like '%${name}%' -->
+          select id, name, age from tbl_mybatis_user where name like CONCAT('%', #{name}, '%')
+    </select>
+
+    <!--List<User> getUsersByMapInfo(Map map);-->
+    <select id="getUsersByMapInfo" resultMap="BaseResultMap">
+          select id, name, age from tbl_mybatis_user where name = #{name}
+    </select>
+
+    <!--int countByName(@Param("name") String name);-->
+    <select id="countByName" resultType="_integer">
+          select count(*) from tbl_mybatis_user where name = #{name}
+    </select>
+
+    <!--Map<String, String> getUserToMap(@Param("id") Long id);-->
+    <select id="getUserToMap" resultType="map">
+          select id, name, age from tbl_mybatis_user where id = #{id}
+    </select>
+
+    <!--List<Map<String, String>> getAllUserToMap();-->
+    <select id="getAllUserToMap" resultType="map">
+          select id, name, age from tbl_mybatis_user
+    </select>
+
+</mapper>
+
+
+        <!--
+
+         -->
