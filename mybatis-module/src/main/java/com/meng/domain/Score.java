@@ -13,4 +13,7 @@ public class Score {
 
     private int score;
 
+    private User user;
+
+    private Course course;
 }

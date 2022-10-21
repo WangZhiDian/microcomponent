@@ -1,5 +1,6 @@
 package com.meng.dao;
 
+import com.meng.domain.Score;
 import com.meng.domain.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -31,5 +32,26 @@ public interface SelectUserDao {
 
     List<Map<String, String>> getAllUserToMap();
 
+    List<User> getUserByTable(@Param("tableName") String table);
+
+    //----单表查询  end--------------------------------------------
+
+    Score getScoreByUserAndCourse(@Param("user_id") Long userId, @Param("course_id") Long courseId);
+
+    List<Score> getScoreByCourse(@Param("course_id") Long courseId);
+
+    Score getScoreByUserAndCourseAssociation(@Param("user_id") Long userId, @Param("course_id") Long courseId);
+
+    Score getScoreByUserAndCourseStepTwo(@Param("user_id") Long userId, @Param("course_id") Long courseId);
+
+    Score getScoreByUserAndCourseStepTwoMultiParam(@Param("user_id") Long userId, @Param("course_id") Long courseId);
+
+    User getUserByIdCollectionStepOne(@Param("user_id") Long userId);
+
+    Score selectScoreByUserId(@Param("user_id") Long userId);
+
+    User getUserByUserIdCollection(@Param("user_id") Long userId);
+
+    User getUserByUserIdCollectionLazy(@Param("user_id") Long userId);
 
 }

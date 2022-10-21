@@ -1,5 +1,6 @@
 package com.meng.service;
 
+import com.meng.domain.Score;
 import com.meng.domain.User;
 import org.apache.ibatis.annotations.Param;
 
@@ -42,5 +43,71 @@ public interface SelectUserService {
     Map<String, String> getUserToMap(@Param("id") Long id);
 
     List<Map<String, String>> getAllUserToMap();
+
+    List<User> getUserByTable(@Param("tableName") String table);
+
+    //-----单表查询 end -------------------------------------------------------------
+    /**
+     * 使用集联的方式，查询表数据，但数据和列表数据
+     * */
+    Score getScoreByUserAndCourse(@Param("userId") Long userId, @Param("courseId") Long courseId);
+
+    List<Score> getScoreByCourse(@Param("courseId") Long courseId);
+
+
+    /**
+     * association 处理映射关系，并且使用联合查询， 主要处理多对一
+     * association：处理多对一的映射关系
+     * property：需要处理多对的映射关系的属性名
+     * javaType：该属性的类型
+     * */
+    Score getScoreByUserAndCourseAssociation(@Param("user_id") Long userId, @Param("course_id") Long courseId);
+
+    /**
+     *  association 处理映射关系，分步查询， 主要处理多一
+     * select：设置分布查询的sql的唯一标识（namespace.SQLId或mapper接口的全类名.方法名）
+     * column：设置分步查询的条件
+     */
+    Score getScoreByUserAndCourseStepTwo(@Param("user_id") Long userId, @Param("course_id") Long courseId);
+
+    /**
+     *  association 处理映射关系，分步查询， 主要处理多一
+     * select：设置分布查询的sql的唯一标识（namespace.SQLId或mapper接口的全类名.方法名）
+     * column：设置分步查询的条件,可以传递多个参数给二级查询
+     */
+    Score getScoreByUserAndCourseStepTwoMultiParam(@Param("user_id") Long userId, @Param("course_id") Long courseId);
+
+    /**
+     * collection 联合查询， 处理一对多
+     * collection：用来处理一对多的映射关系
+     * ofType：表示该属性对饮的集合中存储的数据的类型
+     */
+    User getUserByIdCollectionStepOne(@Param("user_id") Long userId);
+
+    Score selectScoreByUserId(@Param("user_id") Long userId);
+
+    /**
+     * collection 分步查询， 处理一对多
+     * collection：用来处理一对多的映射关系
+     */
+    User getUserByUserIdCollection(@Param("user_id") Long userId);
+
+    /**
+     * collection 分步查询， 处理一对多
+     * collection：用来处理一对多的映射关系
+     * 二级查询添加延迟参数：fetchType:Lazy
+     */
+    User getUserByUserIdCollectionLazy(@Param("user_id") Long userId);
+
+
+
+
+
+
+
+
+
+
+
 
 }

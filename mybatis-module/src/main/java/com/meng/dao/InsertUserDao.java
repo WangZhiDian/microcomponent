@@ -12,11 +12,9 @@ public interface InsertUserDao {
 
     User getUserById(@Param("id") Long id);
 
-    int insertUser(User user);
 
-    int updateUser(User user);
+    int insertUserWithPrimaryKey(User user);
 
-    int deleteUserById(Long id);
-
+    int insertUserWithGenPrimaryKey(User user);
 
 }

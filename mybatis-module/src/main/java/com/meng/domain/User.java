@@ -2,6 +2,8 @@ package com.meng.domain;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class User {
 
@@ -10,6 +12,17 @@ public class User {
     private String name;
 
     private int age;
+
+    private List<Score> scoreList;
+
+
+    public List<Score> getScoreList() {
+        return scoreList;
+    }
+
+    public void setScoreList(List<Score> scoreList) {
+        this.scoreList = scoreList;
+    }
 
     public Long getId() {
         return id;

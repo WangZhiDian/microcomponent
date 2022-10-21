@@ -1,6 +1,7 @@
 package com.meng.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.meng.domain.Score;
 import com.meng.domain.User;
 import com.meng.service.SelectUserService;
 import com.meng.service.UserService;
@@ -101,6 +102,72 @@ public class SelectUserController {
     public String getAllUserToMap() {
         List<Map<String, String>> mapList = selectUserService.getAllUserToMap();
         String ret = JSONObject.toJSONString(mapList);
+        return ret;
+    }
+
+    @GetMapping(value = "/select/getUserByTable")
+    public String getUserByTable(@Param("tableName") String tableName) {
+        List<User> userList = selectUserService.getUserByTable(tableName);
+        String ret = JSONObject.toJSONString(userList);
+        return ret;
+    }
+
+    //---多表查询--------------------------------------------------------------------
+
+    @GetMapping(value = "/select/getScoreByUserAndCourse")
+    public String getScoreByUserAndCourse(@Param("userId") Long userId, @Param("courseId") Long courseId) {
+        Score score = selectUserService.getScoreByUserAndCourse(userId, courseId);
+        String ret = JSONObject.toJSONString(score);
+        return ret;
+    }
+
+    @GetMapping(value = "/select/getScoreByCourse")
+    public String getScoreByCourse(@Param("courseId") Long courseId) {
+        List<Score> scoreList = selectUserService.getScoreByCourse(courseId);
+        String ret = JSONObject.toJSONString(scoreList);
+        return ret;
+    }
+
+    @GetMapping(value = "/select/getScoreByUserAndCourseAssociation")
+    public String getScoreByUserAndCourseAssociation(@Param("userId") Long userId, @Param("courseId") Long courseId) {
+        Score score = selectUserService.getScoreByUserAndCourseAssociation(userId, courseId);
+        String ret = JSONObject.toJSONString(score);
+        return ret;
+    }
+
+    @GetMapping(value = "/select/getScoreByUserAndCourseStepTwo")
+    public String getScoreByUserAndCourseStepTwo(@Param("userId") Long userId, @Param("courseId") Long courseId) {
+        Score score = selectUserService.getScoreByUserAndCourseStepTwo(userId, courseId);
+        String ret = JSONObject.toJSONString(score);
+        return ret;
+    }
+
+    @GetMapping(value = "/select/getScoreByUserAndCourseStepTwoMultiParam")
+    public String getScoreByUserAndCourseStepTwoMultiParam(@Param("userId") Long userId, @Param("courseId") Long courseId) {
+        Score score = selectUserService.getScoreByUserAndCourseStepTwoMultiParam(userId, courseId);
+        String ret = JSONObject.toJSONString(score);
+        return ret;
+    }
+
+    @GetMapping(value = "/select/getUserByIdCollectionStepOne")
+    public String getUserByIdCollectionStepOne(@Param("userId") Long userId) {
+        User user = selectUserService.getUserByIdCollectionStepOne(userId);
+        String ret = JSONObject.toJSONString(user);
+        return ret;
+    }
+
+    @GetMapping(value = "/select/getUserByUserIdCollection")
+    public String getUserByUserIdCollection(@Param("userId") Long userId) {
+        User user = selectUserService.getUserByUserIdCollection(userId);
+        String ret = JSONObject.toJSONString(user);
+        return ret;
+    }
+
+    @GetMapping(value = "/select/getUserByUserIdCollectionLazy")
+    public String getUserByUserIdCollectionLazy(@Param("userId") Long userId) {
+        User user = selectUserService.getUserByUserIdCollectionLazy(userId);
+        System.out.println("===" + user.getScoreList());
+        String ret = JSONObject.toJSONString(user);
         return ret;
     }
 
