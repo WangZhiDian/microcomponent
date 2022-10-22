@@ -15,19 +15,27 @@
         where id = #{id}
     </select>
 
-    <insert id="insertUser" parameterType="com.meng.domain.User"
-            useGeneratedKeys="true" keyProperty="id">
-        insert into tbl_mybatis_user(name, age) value (#{name}, #{age});
-    </insert>
-
-    <update id="updateUser" parameterType="com.meng.domain.User">
-        update tbl_mybatis_user set name = #{name}, age = #{age}
-        where id = #{id}
-    </update>
-
     <delete id="deleteUserById">
         delete from tbl_mybatis_user where id = #{id}
     </delete>
+
+    <!--    int batchDeleteByIds(@Param("userIds") List<Long> userIds);-->
+    <delete id="batchDeleteByIds">
+        delete from tbl_mybatis_user where id in
+        <foreach collection="userIds" item="uid" open="(" close=")" separator=",">
+            #{uid}
+        </foreach>
+    </delete>
+
+    <!--    int batchDeleteByUsers(@Param("users") List<User> userList);-->
+    <delete id="batchDeleteByUsers">
+        delete from tbl_mybatis_user where id in
+        <foreach collection="users" item="user" open="(" close=")" separator=",">
+            #{user.id}
+        </foreach>
+    </delete>
+
+
 
 </mapper>
 

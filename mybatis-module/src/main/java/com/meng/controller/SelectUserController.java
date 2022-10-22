@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.meng.domain.Score;
 import com.meng.domain.User;
 import com.meng.service.SelectUserService;
-import com.meng.service.UserService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

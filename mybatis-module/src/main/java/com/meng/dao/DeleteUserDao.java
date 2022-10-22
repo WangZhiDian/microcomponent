@@ -12,10 +12,10 @@ public interface DeleteUserDao {
 
     User getUserById(@Param("id") Long id);
 
-    int insertUser(User user);
-
-    int updateUser(User user);
-
     int deleteUserById(Long id);
+
+    int batchDeleteByIds(@Param("userIds") List<Long> userIds);
+
+    int batchDeleteByUsers(@Param("users") List<User> userList);
 
 }

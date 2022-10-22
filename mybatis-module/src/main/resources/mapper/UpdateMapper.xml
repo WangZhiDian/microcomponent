@@ -3,31 +3,45 @@
 
 <mapper namespace="com.meng.dao.UpdateUserDao">
 
-    <resultMap id="BaseResultMap" type="com.meng.domain.User">
-        <id column="id" property="id" jdbcType="BIGINT"/>
-        <result column="id" property="id" jdbcType="BIGINT"/>
-        <result column="name" property="name" jdbcType="VARCHAR"/>
-        <result column="age" property="age" jdbcType="INTEGER"/>
-    </resultMap>
-
-    <select id="getUserById" parameterType="Long" resultMap="BaseResultMap">
-        select id, name, age from tbl_mybatis_user
-        where id = #{id}
-    </select>
-
-    <insert id="insertUser" parameterType="com.meng.domain.User"
-            useGeneratedKeys="true" keyProperty="id">
-        insert into tbl_mybatis_user(name, age) value (#{name}, #{age});
-    </insert>
-
+    <!--    int updateUser(User user);-->
     <update id="updateUser" parameterType="com.meng.domain.User">
         update tbl_mybatis_user set name = #{name}, age = #{age}
         where id = #{id}
     </update>
 
-    <delete id="deleteUserById">
-        delete from tbl_mybatis_user where id = #{id}
-    </delete>
+    <!--    int batchUpdateUser(@Param("userList") List<User> userList, @Param("age") int age);-->
+    <update id="batchUpdateUser">
+        update tbl_mybatis_user set age = #{age} where id in 
+        <foreach collection="userList" item="user" open="(" close=")" separator=",">
+            #{user.id}
+        </foreach>
+    </update>
+
+    <!--    int batchUpdateUserMultiSql(@Param("userList") List<User> userList);-->
+    <update id="batchUpdateUserMultiSql">
+        <foreach collection="userList" item="user" open="" close="" separator=";">
+            update tbl_mybatis_user
+            <set>
+                name = #{user.name},
+                age = ${user.age}
+            </set>
+            where id = ${user.id}
+        </foreach>
+    </update>
+
+
+    <update id="updateByCondition">
+        update tbl_mybatis_user
+        <set>
+            <if test="id != null and id != 0">
+                'id' = #{id}
+            </if>
+            <if test="name != null and name != ''">
+                'name' = #{name}
+            </if>
+        </set>
+    </update>
+
 
 </mapper>
 

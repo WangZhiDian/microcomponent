@@ -15,6 +15,20 @@ public class User {
 
     private List<Score> scoreList;
 
+    public User() {
+
+    }
+
+    public User(Long id, String name, int age) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+    }
+
+    public User(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     public List<Score> getScoreList() {
         return scoreList;

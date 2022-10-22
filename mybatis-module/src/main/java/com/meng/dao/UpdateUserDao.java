@@ -9,13 +9,11 @@ import java.util.List;
 @Mapper
 public interface UpdateUserDao {
 
-
-    User getUserById(@Param("id") Long id);
-
-    int insertUser(User user);
-
     int updateUser(User user);
 
-    int deleteUserById(Long id);
+    int batchUpdateUser(@Param("userList") List<User> userList, @Param("age") int age);
 
+    int batchUpdateUserMultiSql(@Param("userList") List<User> userList);
+
+    int updateByCondition(@Param("id") Long id, @Param("name") String name);
 }

@@ -1,7 +1,6 @@
 package com.meng.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.meng.dao.SelectUserDao;
 import com.meng.domain.Score;
 import com.meng.domain.User;
