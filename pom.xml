@@ -12,6 +12,7 @@
         <module>practice-module</module>
         <module>common-module</module>
         <module>mybatis-module</module>
+        <module>mybatis-generator-module</module>
     </modules>
     <packaging>pom</packaging><!-- 这里添加，注意不是jar或war -->
 
@@ -97,6 +98,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.1.14.RELEASE</version>
                 <configuration>
                     <fork>true</fork>
                     <addResources>true</addResources>
