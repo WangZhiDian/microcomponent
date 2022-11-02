@@ -1,0 +1,63 @@
+1 虚拟机安装CentOS时，有多个版本，区别：下载地址：http://mirrors.163.com/centos
+在CentOS下载CentOS系统镜像时，会有三个镜像版本可供选择，分别是：DVD ISO、Everything ISO、
+Minimal ISO及 NetInstall ISO版本，除了这几个版本，还有其他几个版本，他们的区别如下：
+
+    DVD ISO：DVD是标准安装盘，一般下载这个就可以了，里面包含大量的常用软件，大部分情况下安装时无需再在线下载
+    Minimal ISO：精简版本，包含核心组件，自带软件少
+    Everything ISO：对完整版安装盘的软件进行补充，集成所有软件;
+    NetInstall ISO：网络安装镜像;
+    LiveGNOME ISO：GNOME桌面版;
+    LiveKDE ISO：KDE桌面版;
+    LiveCD ISO：光盘上运行的系统，类拟于winpe;
+    boot ISO：
+
+问题：
+    1 安装后，将jdk包解压，并修改/etc/profile后，java -version 提示：
+        -bash: /opt/cloud/jdk/jdk1.8.0_251/bin/java: /lib/ld-linux.so.2: bad ELF interpreter: No such file or directory
+      处理：需要安装glibc ->  yum -y install glibc.i686
+    2 安装后缺少ifconfig，提示： 使用yum search ifconfig 命令，查询到需要安装net-tools.x86_64
+
+jdk安装：
+    mkdir -p /opt/cloud/jdk
+    cd /opt/cloud/jdk
+    scp root@{ip}:/opt/cloud/jdk/jdk-8u251-linux-i586.tar.gz ./
+    tar -xzvf jdk-8u251-linux-i586.tar.gz
+
+    /etc/profile修改：
+        export JAVA_HOME=/opt/cloud/jdk/jdk1.8.0_251
+        export JRE_HOME=/opt/cloud/jdk/jdk1.8.0_251
+        export CLASSPATH=$JRE_HOME/lib/rt.jar:$JRE_HOME/lib/ext
+        export PATH=$PATH:$JRE_HOME/bin
+    执行：source /etc/profile
+
+安装好后，修改网卡配置：
+cd /etc/sysconfig/network-scripts/
+vim ifcfg-ens33
+或者
+vim /etc/sysconfig/network-scripts/ifcfg-ens33
+
+修改内容如下，主要选项，添加静态ip，网关，DNS：
+TYPE=Ethernet
+PROXY_METHOD=none
+BROWSER_ONLY=no
+BOOTPROTO=static
+IPADDR=172.16.40.102
+#NETMASK=255.255.255.0
+NETMASK=255.255.254.0
+GATEWAY=172.16.40.2
+#GATEWAY=100.69.254.1
+#DNS1=58.30.131.33
+DNS1=114.114.114.114
+DEFROUTE=yes
+IPV4_FAILURE_FATAL=no
+IPV6INIT=yes
+IPV6_AUTOCONF=yes
+IPV6_DEFROUTE=yes
+IPV6_FAILURE_FATAL=no
+IPV6_ADDR_GEN_MODE=stable-privacy
+NAME=ens33
+UUID=28660374-931e-4c5f-bb3f-651577297824
+DEVICE=ens33
+ONBOOT=yes
+
+2 虚拟机磁盘扩容： https://blog.csdn.net/ynshi57/article/details/110728754

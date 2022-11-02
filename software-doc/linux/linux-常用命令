@@ -1,0 +1,5 @@
+1 磁盘查看和操作命令： fdisk df du
+
+2 linux 安装ifconfig ：https://www.cnblogs.com/super-chao/p/15141488.html
+    1）使用yum安装ifconfig
+    2）安装： yum -y install net-tools.x86_64
