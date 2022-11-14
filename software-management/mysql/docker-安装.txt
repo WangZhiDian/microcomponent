@@ -1,0 +1,7 @@
+1 在docker已经安装好的前提下，安装mysql的命令：
+docker pull mysql:5.7
+docker run -p 3306:3306 --name mysql -v /mydata/mysql/log:/var/log/mysql -v /mydata/mysql/data:/var/lib/mysql -v /mydata/mysql/conf:/etc/mysql -e MYSQL_ROOT_PASSWORD=root -d mysql:5.7
+是这docker启动后的容器自动重启：docker update mysql --restart=always
+
+
+

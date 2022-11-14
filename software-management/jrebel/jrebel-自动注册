@@ -1,0 +1,6 @@
+
+jrebel 在docker启动前提下，安装自动注册机：
+docker pull ilanyu/golang-reverseproxy
+docker run -d -p 8888:8888 ilanyu/golang-reverseproxy
+
+直接访问该机器的8888端口

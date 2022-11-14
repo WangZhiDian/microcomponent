@@ -61,3 +61,11 @@ DEVICE=ens33
 ONBOOT=yes
 
 2 虚拟机磁盘扩容： https://blog.csdn.net/ynshi57/article/details/110728754
+
+
+3 git 初始化：
+工程首先配置ssh配置（git现在需要ssh的方式推送，https的方式有点问题），然后：
+1 新工程，首先设置远程url：
+git remote set-url origin git@github.com:WangZhiDian/microcomponent.git
+2 然后在使用pull 或者push
+3 在工程中，添加gitignore来过滤提交时不需要提交的本地文件
