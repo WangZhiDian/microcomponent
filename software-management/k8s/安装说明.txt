@@ -1,1 +1,156 @@
 安装可以参考wiki： https://www.wmmzz.com/k8sanzhuangqianxitongyouhuajiaoben/
+根据谷粒学院的安装，主要是需要下载一些镜像：https://www.yuque.com/leifengyang/oncloud/ghnb83#SDlhV
+
+问题：
+1 安装过程遇到虚拟机拉去docker.io的镜像拉不下来，属于国外网站 -》：
+需要修改daemon.json文件的镜像源为国内的，然后重新执行calico的安装
+节点如何添加到Node： https://blog.csdn.net/weixin_43862054/article/details/122951228
+
+
+1 安装准备：
+#各个机器设置自己的域名
+hostnamectl set-hostname xxxx
+
+
+# 将 SELinux 设置为 permissive 模式（相当于将其禁用）
+sudo setenforce 0
+sudo sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
+
+#关闭swap
+swapoff -a
+sed -ri 's/.*swap.*/#&/' /etc/fstab
+
+#允许 iptables 检查桥接流量
+cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
+br_netfilter
+EOF
+
+cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+EOF
+sudo sysctl --system
+
+
+2 安装kubelet、kubeadm、kubectl：
+cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=http://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=0
+repo_gpgcheck=0
+gpgkey=http://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg
+   http://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg
+exclude=kubelet kubeadm kubectl
+EOF
+
+
+sudo yum install -y kubelet-1.20.9 kubeadm-1.20.9 kubectl-1.20.9 --disableexcludes=kubernetes
+
+sudo systemctl enable --now kubelet
+
+3 下载需要安装的镜像：
+sudo tee ./images.sh <<-'EOF'
+#!/bin/bash
+images=(
+kube-apiserver:v1.20.9
+kube-proxy:v1.20.9
+kube-controller-manager:v1.20.9
+kube-scheduler:v1.20.9
+coredns:1.7.0
+etcd:3.4.13-0
+pause:3.2
+)
+for imageName in ${images[@]} ; do
+docker pull registry.cn-hangzhou.aliyuncs.com/lfy_k8s_images/$imageName
+done
+EOF
+
+chmod +x ./images.sh && ./images.sh
+
+4 初始化主节点：
+注：这里是把172.168.200.130作为master，–apiserver-advertise-address值为master的IP、
+–control-plane-endpoint值为master的域名、–image-repository 值为镜像仓库、
+–kubernetes-version指定k8s的版本、–service-cidr指定service的网段、
+–pod-network-cidr指定pod的网段。更多初始化参数详情点击这里。
+保留下init后的信息，里面有node添加到master需要的信息，启动后可能有node的某些容器是pending挂起，
+正常的，因为还需要安装网络插件，装完后就会正常
+如果需要创建新令牌：
+新令牌
+kubeadm token create --print-join-command
+
+执行指令：
+kubeadm init \
+--apiserver-advertise-address=172.168.200.130 \
+--control-plane-endpoint=master \
+--image-repository registry.cn-hangzhou.aliyuncs.com/lfy_k8s_images \
+--kubernetes-version v1.20.9 \
+--service-cidr=10.96.0.0/16 \
+--pod-network-cidr=192.168.0.0/16
+
+
+5 安装网络插件
+执行命令：
+curl https://docs.projectcalico.org/manifests/calico.yaml -O
+kubectl apply -f calico.yaml
+可能会出现calico的版本和k8s不匹配，需要查看calico的版本和k8s的版本，并安装匹配的版本
+本次安装匹配版本后，如下：
+curl https://docs.projectcalico.org/v3.20/manifests/calico.yaml -O
+
+注： 有可能需要修改calico.yaml文档的网段为：master init时填写的网段，如：
+把calico.yaml里pod所在网段改成kubeadm init时选项--pod-network-cidr所指定的网段，
+直接用vim编辑打开此文件查找192，按如下标记进行修改：
+# no effect. This should fall within `--cluster-cidr`.
+# - name: CALICO_IPV4POOL_CIDR
+#   value: "192.168.0.0/16"
+# Disable file logging so `kubectl logs` works.
+- name: CALICO_DISABLE_FILE_LOGGING
+  value: "true"
+把两个#及#后面的空格去掉，并把192.168.0.0/16改成10.244.0.0/16
+# no effect. This should fall within `--cluster-cidr`.
+- name: CALICO_IPV4POOL_CIDR
+  value: "10.244.0.0/16"
+# Disable file logging so `kubectl logs` works.
+- name: CALICO_DISABLE_FILE_LOGGING
+  value: "true"
+
+运行过程中，可能下载docker.io下的镜像会失败，方法是修改/etc/docker/daemon.json，添加国内的站点
+并提前将镜像下载到机器上，虚拟机vm可能访问不了外网，还修改calico.yaml的镜像地址，下载如如：
+docker pull  calico/cni:v3.20.6
+docker pull  calico/pod2daemon-flexvol:v3.20.6
+docker pull  calico/node:v3.20.6
+docker pull  calico/kube-controllers:v3.20.6
+
+最后执行：
+kubectl apply -f calico.yaml
+
+
+节点添加到master：需要执行上述步骤到安装kubectl
+然后执行类似命令，注意cluster-endpoint 为实际到：master到域名
+kubeadm join cluster-endpoint:6443 --token p2ytmf.czghjimks5xoksv8 \
+    --discovery-token-ca-cert-hash sha256:99be92de6c14f361285e18e79bf211ad4a5a3d43ea5a1b4ff91d1b880ec0136a
+
+若：# 查看各节点是否连接上主节点
+  kubectl get nodes
+
+  #Node节点出现这个报错：The connection to the server localhost:8080 was refused - did you specify the right host or port?
+  解决如下：
+  #在Master节点运行下面命令将admin.conf文件拷贝到从节点：
+  sudo scp /etc/kubernetes/admin.conf root@42.192.136.115:~
+  #在Node节点运行下面命令配置环境变量：
+  export KUBECONFIG=$HOME/admin.conf
+
+还不确定是是否节点需要安装flannell
+安装Pod网络插件（CNI）：
+wget https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+kubectl create -f kube-flannel.yml
+
+
+
+部署dashboard
+
+部署后，chrome浏览器提示证书相关的异常让访问，简单处理，1 换火狐狸浏览器 2 更换证书，用safari可以打开，
+但是chrome还是打不开：https://www.jianshu.com/p/9b34807cb6d4
+
+
