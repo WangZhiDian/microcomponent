@@ -53,8 +53,8 @@ function install()
         rm -f 'etc/docker/daemon.json'
     fi
     echo "{" > /etc/docker/daemon.json
-    echo '    registry-mirrors": ["https://joj9v4bz.mirror.aliyuncs.com"]' > /etc/docker/daemon.json
-    echo "}" > /etc/docker/daemon.json
+    echo '    "registry-mirrors": ["https://joj9v4bz.mirror.aliyuncs.com"]' >> /etc/docker/daemon.json
+    echo "}" >> /etc/docker/daemon.json
 
     systemctl start docker
 
