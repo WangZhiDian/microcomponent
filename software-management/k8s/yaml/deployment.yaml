@@ -1,0 +1,26 @@
+
+# kubectl apply -f deployment.yaml
+# kubectl delete -f deployment.yaml
+# 手动部署： kubectl create deployment mytomcat --image=tomcat:8.5.68
+# 手动部署： kubectl create deployment my-dep --image=nginx --replicas=3
+# 手动删除： kubectl delete deployment xxx
+# 自愈能力
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: my-dep
+  name: my-dep
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-dep
+  template:
+    metadata:
+      labels:
+        app: my-dep
+    spec:
+      containers:
+      - image: nginx
+        name: nginx

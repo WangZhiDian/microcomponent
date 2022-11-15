@@ -1,0 +1,15 @@
+
+# kubectl apply -f pod.yaml
+# kubectl delete -f pod.yaml
+# 直接创建pod命令： kubectl run mynginx --image=nginx
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: mynginx
+  name: mynginx
+#  namespace: default
+spec:
+  containers:
+  - image: nginx
+    name: mynginx

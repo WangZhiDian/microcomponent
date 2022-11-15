@@ -1,0 +1,18 @@
+#暴露Deploy port:机器的端口   target-port：容器的端口
+#kubectl expose deployment my-dep --port=8000 --target-port=80
+
+#使用标签检索Pod
+#kubectl get pod -l app=my-dep
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: my-dep
+  name: my-dep
+spec:
+  selector:
+    app: my-dep
+  ports:
+  - port: 8000
+    protocol: TCP
+    targetPort: 80

@@ -1,0 +1,77 @@
+常用命令：
+
+kubectl run mynginx --image=nginx
+
+# 查看default名称空间的Pod
+kubectl get pod
+# 持续的查看pod的get信息
+kubectl get pod -w
+kubectl get pod --show-labels
+# 以yaml的方式，查看pod定义
+kubgectl get deployment -o yaml
+
+# 描述
+kubectl describe pod 你自己的Pod名字
+
+# 删除
+kubectl delete pod Pod名字
+
+# 查看Pod的运行日志
+kubectl logs Pod名字
+
+# 每个Pod - k8s都会分配一个ip
+kubectl get pod -owide
+
+# 使用Pod的ip+pod里面运行容器的端口
+curl 192.168.169.136
+
+# 集群中的任意一个机器以及任意的应用都能通过Pod分配的ip来访问这个Pod
+curl ip：port
+
+# 每秒查看podget的命令
+watch -n kubectl get pods -n ns
+
+# 从kubectl进入后台容器，类似docker
+ kubectl exec -it mynginx -- /bin/bash
+
+
+# 创建deployment pod
+kubectl create deployment my-dep --image=nginx --replicas=3
+kubectl run mynginx --image=nginx
+
+# deployment 扩所容：
+kubectl scale --replicas=5 deployment/my-dep
+#修改deployment定义：
+kubectl edit deployment my-dep（deployment的名称）
+
+
+# deployment 滚动更新
+kubectl set image deployment/my-dep nginx=nginx:1.16.1 --record
+kubectl rollout status deployment/my-dep
+# 修改的方式更新
+kubectl edit deployment/my-dep
+
+
+#版本的回退，回退也是滚动更新的
+#历史记录
+kubectl rollout history deployment/my-dep
+#查看某个历史详情
+kubectl rollout history deployment/my-dep --revision=2
+#回滚(回到上次)
+kubectl rollout undo deployment/my-dep
+#回滚(回到指定版本)
+kubectl rollout undo deployment/my-dep --to-revision=2
+
+
+# 创建一个service 暴露pod的端口，暴露后查询：kubectl get svc
+kubectl expose deployment my-dep --port=8000 --target-port=80 --type=ClusterIP
+创建service后，如果type是ClusterId，可以提供pod服务在集群内部访问，外网还访问不了，分配给pod的地址为集群内部地址
+在节点上访问如：curl 10.96.101.122：8000 或者在pod内部且只能在内部，用域名访问，域名：{svc-name}.{namespace}.svc访问如：curl my-dep.default.svc:8000
+
+# 创建一个service 暴露pod的端口，暴露后查询：kubectl get svc
+kubectl expose deployment my-dep --port=8000 --target-port=80 --type=NodePort
+该类型创建，可以在节点上通过10.x.x.x端口来访问pod服务，在外网，可以通过vmip+30000+的端口来访问pod服务
+
+
+
+

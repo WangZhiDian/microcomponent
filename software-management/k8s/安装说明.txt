@@ -153,4 +153,7 @@ kubectl create -f kube-flannel.yml
 部署后，chrome浏览器提示证书相关的异常让访问，简单处理，1 换火狐狸浏览器 2 更换证书，用safari可以打开，
 但是chrome还是打不开：https://www.jianshu.com/p/9b34807cb6d4
 
+访问令牌生成：
+kubectl -n kubernetes-dashboard get secret $(kubectl -n kubernetes-dashboard get sa/admin-user -o jsonpath="{.secrets[0].name}") -o go-template="{{.data.token | base64decode}}"
+
 
