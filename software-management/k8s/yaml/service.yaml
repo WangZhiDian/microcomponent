@@ -1,5 +1,8 @@
 #暴露Deploy port:机器的端口   target-port：容器的端口
 #kubectl expose deployment my-dep --port=8000 --target-port=80
+#kubectl expose deployment my-dep --port=8000 --target-port=80 --type=ClusterIP
+#kubectl expose deployment my-dep --port=8000 --target-port=80 --type=NodePort
+
 
 #使用标签检索Pod
 #kubectl get pod -l app=my-dep
@@ -16,3 +19,5 @@ spec:
   - port: 8000
     protocol: TCP
     targetPort: 80
+  #type: ClusterIP  # 可以提供pod内部访问，使用ip+port或者域名+svc
+  #type: NodePort   #可以提供在vm上访问和外网访问

@@ -156,4 +156,21 @@ kubectl create -f kube-flannel.yml
 访问令牌生成：
 kubectl -n kubernetes-dashboard get secret $(kubectl -n kubernetes-dashboard get sa/admin-user -o jsonpath="{.secrets[0].name}") -o go-template="{{.data.token | base64decode}}"
 
+-----------------------------------ingress start-------
+在主节点安装ingress，该组件用于外网到哪网服务的路由功能，类似于nginx转发：
+wget https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.47.0/deploy/static/provider/baremetal/deploy.yaml
+
+#修改镜像
+vi deploy.yaml
+#将image的值改为如下值，因为从外网下载该文件可能下不了，需要改成国内的镜像库的地址：
+registry.cn-hangzhou.aliyuncs.com/lfy_k8s_images/ingress-nginx-controller:v0.46.0
+
+# 检查安装的结果
+kubectl get pod,svc -n ingress-nginx
+
+# 最后别忘记把svc暴露的端口要放行
+
+ingress 的rule安装是如果发现问题，可以查询下部分问题：http://www.kaotop.com/it/915568.html
+如：kubectl get ValidatingWebhookConfiguration   kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
+-----------------------------------ingress end-------
 
