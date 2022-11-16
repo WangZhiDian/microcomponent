@@ -174,3 +174,23 @@ ingress 的rule安装是如果发现问题，可以查询下部分问题：http:
 如：kubectl get ValidatingWebhookConfiguration   kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
 -----------------------------------ingress end-------
 
+安装存储nfs：
+yum install -y nfs-utils
+主节点：
+#nfs主节点
+echo "/nfs/data/ *(insecure,rw,sync,no_root_squash)" > /etc/exports
+
+mkdir -p /nfs/data
+systemctl enable rpcbind --now
+systemctl enable nfs-server --now
+#配置生效
+exportfs -r
+重节点：
+showmount -e 172.31.0.4
+
+#执行以下命令挂载 nfs 服务器上的共享目录到本机路径 /root/nfsmount
+mkdir -p /nfs/data
+
+mount -t nfs 172.31.0.4:/nfs/data /nfs/data
+# 写入一个测试文件
+echo "hello nfs server" > /nfs/data/test.txt

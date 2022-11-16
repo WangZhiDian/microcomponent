@@ -72,6 +72,12 @@ kubectl expose deployment my-dep --port=8000 --target-port=80 --type=ClusterIP
 kubectl expose deployment my-dep --port=8000 --target-port=80 --type=NodePort
 该类型创建，可以在节点上通过10.x.x.x端口来访问pod服务，在外网，可以通过vmip+30000+的端口来访问pod服务
 
+nfs挂载：
+mount -t nfs 172.31.0.4:/nfs/data /nfs/data
 
-
+创建configMap：
+# 创建配置，redis保存到k8s的etcd；
+kubectl create cm redis-conf --from-file=redis.conf
+kubectl get cm  # 获取etcd里面已有的配置文件信息
+kubectl edit cm redis-conf # 修改配置文件信息
 
