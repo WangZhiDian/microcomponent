@@ -57,6 +57,7 @@ function install()
     echo "}" >> /etc/docker/daemon.json
 
     systemctl start docker
+    systemctl enable docker.service
 
     return 0
 }

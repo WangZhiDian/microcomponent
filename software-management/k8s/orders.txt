@@ -81,3 +81,8 @@ kubectl create cm redis-conf --from-file=redis.conf
 kubectl get cm  # 获取etcd里面已有的配置文件信息
 kubectl edit cm redis-conf # 修改配置文件信息
 
+
+#查看安装命令
+kubectl logs -n kubesphere-system $(kubectl get pod -n kubesphere-system -l app=ks-install -o jsonpath='{.items[0].metadata.name}') -f
+
+
