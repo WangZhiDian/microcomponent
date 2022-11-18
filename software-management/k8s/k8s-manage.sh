@@ -20,6 +20,8 @@ function usage()
     echo "  主节点：prepare，install，master_init，calico_install"
     echo "  子节点：prepare，install，节点加入master"
     echo "  该方式适用于自测集群安装，docker需要提前安装好，各个版本的适配，不同环境可能也有异常"
+    echo "  dashboard ingress 的安装代做"
+
 
 }
 
@@ -132,6 +134,7 @@ EOF
 
 function master_init()
 {
+    # 如果初始化过，需要使用kubeadm reset 重置一下，才能再次初始化
     if [ $# -eq 0 ]; then
         echo "no master ip info"
         exit 0;
@@ -161,14 +164,18 @@ function master_init()
 
 function calico_install()
 {
+
+#预下载calico需要的镜像，最好手动先下载了
+docker pull calico/node:v3.20.6
+docker pull calico/cni:v3.20.6
+docker pull calico/pod2daemon-flexvol:v3.20.6
+docker pull calico/kube-controllers:v3.20.6
+
     # 下载calico的安装yaml,该版本的k8s需要匹配3.20的calico
     curl https://docs.projectcalico.org/v3.20/manifests/calico.yaml -O
     # 由于calico.yaml里面的docker.io下的镜像下载不了，需要修改yaml文件，从国内的站点下
     sed -i 's#docker.io/##g' calico.yaml
-    docker pull calico/node:v3.20.6
-    docker pull calico/cni:v3.20.6
-    docker pull calico/pod2daemon-flexvol:v3.20.6
-    docker pull calico/kube-controllers:v3.20.6
+
     # 安装calico
     kubectl apply -f calico.yaml
 }

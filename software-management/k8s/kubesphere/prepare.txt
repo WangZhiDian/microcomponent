@@ -28,3 +28,4 @@ exportfs
 mkdir -p /nfs/data
 
 mount -t nfs 172.31.0.4:/nfs/data /nfs/data
+

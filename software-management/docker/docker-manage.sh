@@ -58,6 +58,7 @@ function install()
 
     systemctl start docker
     systemctl enable docker.service
+    systemctl enable docker.socket
 
     return 0
 }
