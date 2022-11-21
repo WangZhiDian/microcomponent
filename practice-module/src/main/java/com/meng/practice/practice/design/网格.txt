@@ -1,0 +1,21 @@
+
+
+// 标记已遍历过的岛屿，不做重复遍历
+void dfs(int[][] grid, int r, int c) {
+    if (!(0 <= r && r < grid.length && 0 <= c && c < grid[0].length)) {
+        return;
+    }
+    // 已遍历过（值为2）的岛屿在这里会直接返回，不会重复遍历
+    if (grid[r][c] != 1) {
+        return;
+    }
+    grid[r][c] = 2; // 将方格标记为"已遍历"
+    dfs(grid, r - 1, c);
+    dfs(grid, r + 1, c);
+    dfs(grid, r, c - 1);
+    dfs(grid, r, c + 1);
+}
+
+
+
+
