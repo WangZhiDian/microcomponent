@@ -1,0 +1,29 @@
+一、使用BigDecimal的setScale方法
+
+double one = 5.26419;
+BigDecimal two = new BigDecimal(one);
+double three = two.setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue();
+
+二、使用DecimalFormat
+
+double one = 5.26419;
+DecimalFormat format = new DecimalFormat("#.00");
+String str = format.format(one);
+double four = Double.parseDouble(str);
+
+
+三、使用Sting自带的format方法
+
+double one = 5.26419;
+String str = String.format("%.2f",one);
+double four = Double.parseDouble(str);
+
+
+
+四、使用NumberFormat设置最大小数位数
+
+double one = 5.26419;
+NumberFormat format = NumberFormat.getInstance();
+format.setMaximumFractionDigits(2);
+String str = format.format(one);
+double two = Double.parseDouble(str);

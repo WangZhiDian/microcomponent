@@ -4,7 +4,7 @@ public class StringUtils {
 
     private static void trimStr() {
         // 去掉字符串前面的0 使用"^0+"可以匹配字符串开头的一个或多个"0"，并将其替换为空，可以实现left trim 0的效果。
-        String str = "000000021";
+        String str = "00000002001";
         String newStr = str.replaceAll("^(0+)", "");
         System.out.println(newStr);
 

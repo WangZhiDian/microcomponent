@@ -1,5 +1,9 @@
 package com.meng.practice.practice.leetcode.shuzu;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Array_4_三数之和 {
 
     /**
@@ -30,5 +34,25 @@ public class Array_4_三数之和 {
      * 3 <= nums.length <= 3000
      * -105 <= nums[i] <= 105
      */
+
+    public List<List<Integer>> threeSum(int[] nums) {
+
+        List<List<Integer>> ans = new ArrayList<>();
+        if (nums == null || nums.length < 3) {
+            return ans;
+        }
+        Arrays.sort(nums);
+
+        return null;
+    }
+    // index: 第几元, list 前边N个数第列表
+    private void three(int[] nums, int index, List<Integer> list) {
+
+        // if (index == )
+
+
+
+    }
+
 
 }

@@ -46,13 +46,13 @@ spec:
             - name: PROVISIONER_NAME
               value: k8s-sigs.io/nfs-subdir-external-provisioner
             - name: NFS_SERVER
-              value: 172.16.40.202 ## 指定自己nfs服务器地址
+              value: 192.168.31.151 ## 指定自己nfs服务器地址
             - name: NFS_PATH
               value: /nfs/data  ## nfs服务器共享的目录
       volumes:
         - name: nfs-client-root
           nfs:
-            server: 172.16.40.202
+            server: 192.168.31.151
             path: /nfs/data
 ---
 apiVersion: v1

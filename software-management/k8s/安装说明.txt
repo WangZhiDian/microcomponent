@@ -148,15 +148,35 @@ kubectl create -f kube-flannel.yml
 
 
 
-部署dashboard
 
+-----------------------------------部署dashboard------------------------------
 部署后，chrome浏览器提示证书相关的异常让访问，简单处理，1 换火狐狸浏览器 2 更换证书，用safari可以打开，
 但是chrome还是打不开：https://www.jianshu.com/p/9b34807cb6d4
+如果出现dashboard的端口refused： https://blog.csdn.net/w2909526/article/details/117417745
+需要在创建dashboard的yaml的deployment里面添加上node节点的名称
 
 访问令牌生成：
 kubectl -n kubernetes-dashboard get secret $(kubectl -n kubernetes-dashboard get sa/admin-user -o jsonpath="{.secrets[0].name}") -o go-template="{{.data.token | base64decode}}"
 
------------------------------------ingress start-------
+1 删除默认的secret：kubernetes-dashboard-certs:
+kubectl delete secret -n kubernetes-dashboard kubernetes-dashboard-certs
+2 mkdir keys & cd keys
+openssl genrsa -out tls.key 2048
+openssl req -new -out tls.csr -key tls.key -subj '/CN=xxx'
+openssl x509 -req -in tls.csr -signkey tls.key -out tls.crt
+3 根据新的证书，创建secret
+kubectl create secret generic kubernetes-dashboard-certs --from-file=./ -n kubernetes-dashboard
+4 修改kubernetes-dashboard deployment,启用新的secret
+kubectl edit deploy kubernetes-dashboard -n kubernetes-dashboard
+# 在args中添加两行
+       containers:
+       - args:
+         - --tls-cert-file=/tls.crt
+         - --tls-key-file=/tls.key
+5 查询端口映射
+kubectl get svc -n kubernetes-dashboard
+
+-----------------------------------ingress start---------------------------------
 在主节点安装ingress，该组件用于外网到哪网服务的路由功能，类似于nginx转发：
 wget https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.47.0/deploy/static/provider/baremetal/deploy.yaml
 

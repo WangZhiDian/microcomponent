@@ -1,0 +1,43 @@
+常用命令：https://blog.csdn.net/zhangbeizhen18/article/details/127814304
+1 查看挂载的目录占用的磁盘大小 df -> disk free
+df -h
+
+查询磁盘使用量 du -> disk usage
+当前目录下，统计每个目录占用磁盘空间大小
+命令：du -h
+统计每个目录占用磁盘空间大小
+命令：du -sh ./*
+
+当前目录下，统计指定层级子目录磁盘空间大小
+命令：du -h --max-depth=1
+命令：du -h --max-depth=2
+命令：du -h --max-depth=3
+
+查看指定目录大小
+命令：du -h /home/apps/software/
+
+打印出所有设备信息和关系依赖
+命令：lsblk -a
+lsblk -f
+
+查看磁盘分区信息
+命令：fdisk -l
+
+查看磁盘分区信息
+命令：parted -l
+
+
+mac vmware fusion虚拟机磁盘扩容：https://blog.csdn.net/weixin_43822311/article/details/102464111
+1 lsblk -f 查看磁盘的盘符挂载，该盘指的是磁盘硬盘，可以查看磁盘盘符，磁盘格式，磁盘的uuid，磁盘的挂载目录
+如果新的磁盘格式化后，需要reboot后才能看到新建的
+2 fdisk -l 查看当前磁盘的总量大小，各个虚拟盘分区的大小，看是否还有多余的磁盘，可以用于分配
+3 fdisk /dev/sda ，对拥有多余未使用容量对磁盘，进行分区，参数/dev/sda为fdisk -l查询出的内容
+  分区完后w保存，新的盘符，在reboot后，可以看到
+4 mkfs -t ext4 /dev/sda1 ， 对新的磁盘进行格式化，盘符参数/dev/sda1 为上一步重启后，lsblk查出来的新盘符
+5 mkdir /newdir，  mount /dev/sda1 /newdir ，将磁盘盘符挂在到具体新建好对目录上，这时lsblk可以查处盘符挂载了新目录
+
+6 上述步骤为动态分配磁盘，数据标识在内在中，需要修改/etc/fstab 文件，将盘符永久挂载到目录上
+  以后重启虚拟机，都会有盘符挂载
+注：如果/etc/fstab对盘符挂载有异常，linux服务器重启的时候，会异常，启动失败。
+
+

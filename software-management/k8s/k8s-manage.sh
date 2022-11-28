@@ -166,10 +166,10 @@ function calico_install()
 {
 
 #预下载calico需要的镜像，最好手动先下载了
-docker pull calico/node:v3.20.6
-docker pull calico/cni:v3.20.6
-docker pull calico/pod2daemon-flexvol:v3.20.6
-docker pull calico/kube-controllers:v3.20.6
+    docker pull calico/node:v3.20.6
+    docker pull calico/cni:v3.20.6
+    docker pull calico/pod2daemon-flexvol:v3.20.6
+    docker pull calico/kube-controllers:v3.20.6
 
     # 下载calico的安装yaml,该版本的k8s需要匹配3.20的calico
     curl https://docs.projectcalico.org/v3.20/manifests/calico.yaml -O

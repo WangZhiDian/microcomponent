@@ -28,6 +28,12 @@ public class TransUtils {
         int N = 5;
         System.out.println(str + " 的十进制是:" + Integer.parseInt(str, N));
 
+        int input = 167773121;
+        System.out.println("十进制：" + input + ": 的二进制是：" + Integer.toBinaryString(input));
+
+        String inputStr = "1010000000000000001111000001";
+        System.out.println("二进制：" + input + ": 的十进制是：" + Integer.parseInt(inputStr, 2));
+
     }
 
 
