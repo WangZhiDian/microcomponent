@@ -28,6 +28,7 @@ lsblk -f
 
 
 mac vmware fusion虚拟机磁盘扩容：https://blog.csdn.net/weixin_43822311/article/details/102464111
+
 1 lsblk -f 查看磁盘的盘符挂载，该盘指的是磁盘硬盘，可以查看磁盘盘符，磁盘格式，磁盘的uuid，磁盘的挂载目录
 如果新的磁盘格式化后，需要reboot后才能看到新建的
 2 fdisk -l 查看当前磁盘的总量大小，各个虚拟盘分区的大小，看是否还有多余的磁盘，可以用于分配
@@ -39,5 +40,19 @@ mac vmware fusion虚拟机磁盘扩容：https://blog.csdn.net/weixin_43822311/a
 6 上述步骤为动态分配磁盘，数据标识在内在中，需要修改/etc/fstab 文件，将盘符永久挂载到目录上
   以后重启虚拟机，都会有盘符挂载
 注：如果/etc/fstab对盘符挂载有异常，linux服务器重启的时候，会异常，启动失败。
+    如果不小心挂错了，覆盖了之前的文件，可以使用umount /dev/sda3的方式取消挂载，原文件就看到了，然后就需要先移动原来的文件，然后再次挂载
 
+
+fdisk /dev/sda
+reboot
+mkfs -t ext4 /dev/sda3
+mkdir -p /opt/cloud
+mount /dev/sda3 /opt/cloud
+
+vim /etc/fstab
+UUID=盘符id /opt/cloud              ext4     defaults        0 0
+reboot
+
+
+UUID=ec67fb19-e6e3-462c-9506-45b920c4688d /opt/cloud              ext4     defaults        0 0
 

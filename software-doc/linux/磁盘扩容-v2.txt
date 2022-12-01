@@ -1,0 +1,34 @@
+将多余的磁盘分配给已有的文件夹：
+新增磁盘并扩展到原有分区：
+https://blog.csdn.net/weixin_48057558/article/details/124998851
+
+1 查看当前磁盘情况：
+fdisk -l
+
+2 对需要处理的或者新加的磁盘进行分区：
+fdisk /dev/sda
+n -> p -> {最小对分区号} -> 回车 -> 回车 -> t -> L -> 8e -> w
+
+3 对新磁盘处理 输入partprobe 让系统识别新增的分区
+partprobe
+
+4 创建物理卷，使用pvcreate /dev/sda3； sda3为新创建出来的磁盘
+pvcreate /dev/sda3
+pvdisplay  查看创建好的pv
+
+5 使用vgextend命令进行动态扩展， 然后查看vg  vgdisplay
+vgextend centos /dev/vda3    #centos卷组是通过display命令查找出来的
+vgdisplay
+
+6 将空闲的磁盘扩展到/分区
+lvextend -l +100%FREE /dev/mapper/centos-root    #/dev/mapper/centos-root是使用df -h查出来的/分区的文件系统名称
+
+7 重新识别/分区
+xfs_growfs /dev/mapper/centos-root
+
+8 最后查看添加了磁盘容量后的磁盘情况
+df -h
+
+总结磁盘的分配：
+https://blog.csdn.net/Hlroliu/article/details/109764269?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-109764269-blog-124998851.pc_relevant_multi_platform_whitelistv3&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-109764269-blog-124998851.pc_relevant_multi_platform_whitelistv3&utm_relevant_index=1
+
