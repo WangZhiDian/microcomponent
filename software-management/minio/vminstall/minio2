@@ -1,0 +1,13 @@
+
+MINIO_VOLUMES="https://minio{1...2}.example.com:9000/opt/minio/data"
+
+MINIO_OPTS="--console-address :9001"
+
+MINIO_ROOT_USER=minioadmin
+
+MINIO_ROOT_PASSWORD=minioadmin
+
+#MINIO_SERVER_URL="https://minio.example.net:9000"
+MINIO_SERVER_URL="https://minio1.example.com:9000"
+
+

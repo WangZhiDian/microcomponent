@@ -1,0 +1,75 @@
+
+拉镜像：
+docker pull mysql:5.7
+命令：
+docker run -id --name=mysql  -e MYSQL_ROOT_PASSWORD=123456 \
+-p 3306:3306 -e TZ=Asia/Shanghai \
+-v /opt/docker/mysql/conf/mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf \
+-v /opt/docker/mysql/data:/var/lib/mysql mysql:5.7
+
+#进入从mysql容器并登陆
+docker exec -it mysql bash
+mysql -uroot -pmysql密码
+
+#加入主库 master_log_file和master_log_pos上面提到的稍后会用的数据，master_connect_retry重试时间间隔，单位s
+change master to master_host='10.x.x.121', master_user='slave', master_password='slave123@pdy6bObCqG0g', master_port=3306, master_log_file='mysql-bin.000003', master_log_pos=617, master_connect_retry=10;
+
+#查看从库状态 #会发现Slave_IO_Running和Slave_SQL_Running都是no，并没有开始同步
+show slave status \G;
+
+#开始同步
+start slave;
+
+#再次查看状态会发现变更为yes.
+
+-------------------------------------------------------------------------------
+1 创建从库文件夹：
+mkdir -p /opt/docker/mysql/conf/
+mkdir -p /opt/docker/mysql/data/
+
+2 创建从库mysqld.cnf，注意：不要将client的default-character-set=utf8移动位置,因为必须在server的配置文件
+下，否则启动失败，异常找不到server_id。内容：
+[mysqld]
+pid-file        = /var/run/mysqld/mysqld.pid
+socket          = /var/run/mysqld/mysqld.sock
+datadir         = /var/lib/mysql
+#log-error      = /var/log/mysql/error.log
+# By default we only accept connections from localhost
+#bind-address   = 127.0.0.1
+# Disabling symbolic-links is recommended to prevent assorted security risks
+symbolic-links=0
+
+init_connect='SET collation_connection = utf8_general_ci'
+init_connect='SET NAMES utf8'
+character-set-server=utf8
+collation-server=utf8_general_ci
+
+
+#[mysqld]
+sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'
+## 设置server_id，同一局域网中需要唯一
+server_id=102
+## 开启二进制日志功能，以备Slave作为其它数据库实例的Master时使用
+log-bin=mysql-bin
+## 设置二进制日志使用内存大小（事务）
+binlog_cache_size=1M
+## 设置使用的二进制日志格式（mixed,statement,row）
+binlog_format=row
+## 二进制日志过期清理时间。默认值为0，表示不自动清理。
+expire_logs_days=7
+## 跳过主从复制中遇到的所有错误或指定类型的错误，避免slave端复制中断。
+## 如：1062错误是指一些主键重复，1032错误是因为主从数据库数据不一致
+slave_skip_errors=1062
+## relay_log配置中继日志
+relay_log=mysql-relay-bin
+## log_slave_updates表示slave将复制事件写进自己的二进制日志
+log_slave_updates=1
+## slave设置为只读（具有super权限的用户除外）
+read_only=1
+
+
+[client]
+default-character-set=utf8
+
+
+

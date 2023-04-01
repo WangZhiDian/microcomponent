@@ -1,0 +1,103 @@
+分布式文件系统，类似于DFS
+
+1 下载minio的镜像：docker pull minio/minio
+2 创建minio的外部挂载配置目录和数据目录：
+mkdir -p /opt/docker/minio/conf
+mkdir -p /opt/docker/minio/data
+
+3 docker模式运行minio：
+docker run -p 9000:9000 -p 9090:9090 \
+     --name miniodemo \
+     -d --restart=always \
+     -e "MINIO_ACCESS_KEY=minioadmin" \
+     -e "MINIO_SECRET_KEY=minioadmin" \
+     -v /opt/docker/minio/data:/data \
+     -v /opt/docker/minio/conf:/root/.minio \
+     minio/minio server \
+     /data --console-address ":9090" -address ":9000"
+
+
+docker  run -d --name minio \
+-p 9000:9000  \
+-p 9001:9001  \
+--restart=always  --net=host \
+-e MINIO_ACCESS_KEY=minio \
+-e MINIO_SECRET_KEY=minio123 \
+-v /opt/docker/miniocluster/data/config:/root/.minio \
+-v /opt/docker/miniocluster/data/data:/data \
+minio/minio server http://minio1/data http://minio2/data \
+--console-address ":9001"
+
+docker  run -d --name minio \  #后台运行一个名字叫minio的容器
+-p 9000:9000  \  #映射端口
+-p 9001:9001  \ #映射端口
+--restart=always  --net=host \  #关联host
+-e MINIO_ACCESS_KEY=minio \  #账号
+-e MINIO_SECRET_KEY=minio123 \ #密码
+-v /data/config:/root/.minio \    #持久化
+-v /data/data1:/data1 \   #持久化
+-v /data/data2:/data2 \   #持久化
+-v /data/data3:/data3 \   #持久化
+-v /data/data4:/data4 \   #持久化
+minio/minio server http://minio{1...2}/data{1...4} \  #使用镜像运行 minio
+--console-address ":9001"   #web页面
+
+
+docker  run -d --name minio \
+-p 9000:9000  \
+-p 9001:9001  \
+--restart=always  --net=host \
+-e MINIO_ACCESS_KEY=minio \
+-e MINIO_SECRET_KEY=minio123 \
+-v /data/config:/root/.minio \
+-v /data/data1:/data1 \
+-v /data/data2:/data2 \
+-v /data/data3:/data3 \
+-v /data/data4:/data4 \
+minio/minio server http://minio{1...2}/data{1...4} \
+--console-address ":9001"
+
+docker  run -d --name minio \
+-p 9000:9000  \
+-p 9001:9001  \
+--restart=always  --net=host \
+-e MINIO_ACCESS_KEY=minio \
+-e MINIO_SECRET_KEY=minio123 \
+-v /opt/cloud/minio/config:/root/.minio \
+-v /opt/cloud/minio/data1:/data1 \
+-v /opt/cloud/minio/data2:/data2 \
+-v /opt/cloud/minio/data3:/data3 \
+-v /opt/cloud/minio/data4:/data4 \
+minio/minio:RELEASE.2022-02-12T00-51-25Z server http://minio{1...2}/data{1...4} \
+--console-address ":9001"
+
+
+# 可行，集群安装，service后面等路径，是容器里面的数据路径（注：minio的磁盘需要独立挂载）
+docker  run -d --name minio \
+-p 9000:9000  \
+-p 9001:9001  \
+--restart=always  --net=host \
+-e MINIO_ACCESS_KEY=minio \
+-e MINIO_SECRET_KEY=minio123 \
+-v /minio/docker/config:/root/.minio \
+-v /minio/docker/data1:/data1 \
+-v /minio/docker/data2:/data2 \
+minio/minio server http://minio{1...2}/data{1...2} \
+--console-address ":9001"
+
+docker  run -d --name minio \
+-p 9000:9000  \
+-p 9001:9001  \
+--restart=always  --net=host \
+-e MINIO_ACCESS_KEY=minio \
+-e MINIO_SECRET_KEY=minio123 \
+-v /minio/config:/root/.minio \
+-v /minio:/data \
+minio/minio server http://minio{1...2}/data \
+--console-address ":9001"
+
+
+
+
+
+

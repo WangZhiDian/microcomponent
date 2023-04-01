@@ -63,7 +63,7 @@ function install()
     tar -xzvf ${CURRENT_WORK_DIR}/${NACOS_PKG}
 
     if [ ${NACOS_CONSTANCY} == "y" ]; then
-        echo "db.platform="${DB_PLATFORM} >> ${CURRENT_WORK_DIR}/nacos/conf/application.properties
+        echo "spring.datasource.platform="${DB_PLATFORM} >> ${CURRENT_WORK_DIR}/nacos/conf/application.properties
         echo "db.num="${DB_NUM} >> ${CURRENT_WORK_DIR}/nacos/conf/application.properties
         echo "db.url.0="${DB_URL} >> ${CURRENT_WORK_DIR}/nacos/conf/application.properties
         echo "db.user="${DB_USER} >> ${CURRENT_WORK_DIR}/nacos/conf/application.properties

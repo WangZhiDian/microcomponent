@@ -1,0 +1,16 @@
+keepalived 保证双机热备，一台机器挂了后，另一台机器还可以接着提供服务
+blog:https://blog.csdn.net/weixin_59566851/article/details/124957266
+
+#搭建keepalived环境
+yum install -y  keepalived
+
+#keepalived的启动与停止
+service keepalived start
+service keepalived stop
+or
+systemctl status keepalived
+systemctl start keepalived
+
+
+
+

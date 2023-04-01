@@ -117,10 +117,10 @@ curl https://docs.projectcalico.org/v3.20/manifests/calico.yaml -O
 
 运行过程中，可能下载docker.io下的镜像会失败，方法是修改/etc/docker/daemon.json，添加国内的站点
 并提前将镜像下载到机器上，虚拟机vm可能访问不了外网，还修改calico.yaml的镜像地址，下载如如：
-docker pull  calico/cni:v3.20.6
-docker pull  calico/pod2daemon-flexvol:v3.20.6
-docker pull  calico/node:v3.20.6
-docker pull  calico/kube-controllers:v3.20.6
+    docker pull  calico/cni:v3.20.6
+    docker pull  calico/pod2daemon-flexvol:v3.20.6
+    docker pull  calico/node:v3.20.6
+    docker pull  calico/kube-controllers:v3.20.6
 
 最后执行：
 kubectl apply -f calico.yaml

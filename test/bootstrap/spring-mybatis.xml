@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context.xsd
+            http://www.springframework.org/schema/tx
+            http://www.springframework.org/schema/context/spring-tx.xsd
+            http://www.springframework.org/schema/aop
+            http://www.springframework.org/schema/context/spring-aop.xsd">
+
+    <context:property-placeholder
+            location="classpath*:config/mybatis.properties, file:${config.dir}/config/mybatis.properties"
+            ignore-resource-not-found="true"/>
+
+    <!--<bean id="propertyPlaceholderConfig" class="com.projn.alps.bean.EncryptablePropertyPlaceholderConfig">-->
+        <!--<property name="locations" >-->
+            <!--<list>-->
+                <!--<value>classpath*:config/*.properties</value>-->
+                <!--<value>file:${config.dir}/config/*.properties</value>-->
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="druidDataSource"/>
+        <property name="configLocation" value="${mybatis.configLocation}"/>
+        <property name="mapperLocations">
+            <array>
+                <value>${mybatis.mapperLocations.module}</value>
+            </array>
+        </property>
+    </bean>
+
+    <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+<!--
+        <property name="basePackage" value="${mybatis.basePackage}"/>
+-->
+        <property name="basePackage" value="${mybatis.basePackage}"/>
+        <property name="processPropertyPlaceHolders" value="true"/>
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="druidDataSource" />
+    </bean>
+
+    <!--基于切面-->
+    <!--<tx:advice id="transactionAdvice" transaction-manager="transactionManager">-->
+    <!--<tx:attributes>-->
+    <!--<tx:method name="add*" propagation="REQUIRED" />-->
+    <!--<tx:method name="append*" propagation="REQUIRED" />-->
+    <!--<tx:method name="insert*" propagation="REQUIRED" />-->
+    <!--<tx:method name="save*" propagation="REQUIRED" />-->
+    <!--<tx:method name="update*" propagation="REQUIRED" />-->
+    <!--<tx:method name="modify*" propagation="REQUIRED" />-->
+    <!--<tx:method name="edit*" propagation="REQUIRED" />-->
+    <!--<tx:method name="delete*" propagation="REQUIRED" />-->
+    <!--<tx:method name="remove*" propagation="REQUIRED" />-->
+    <!--<tx:method name="repair" propagation="REQUIRED" />-->
+    <!--<tx:method name="delAndRepair" propagation="REQUIRED" />-->
+
+    <!--<tx:method name="get*" propagation="SUPPORTS" />-->
+    <!--<tx:method name="find*" propagation="SUPPORTS" />-->
+    <!--<tx:method name="load*" propagation="SUPPORTS" />-->
+    <!--<tx:method name="search*" propagation="SUPPORTS" />-->
+
+    <!--<tx:method name="*" propagation="SUPPORTS" />-->
+    <!--</tx:attributes>-->
+    <!--</tx:advice>-->
+
+    <!--<aop:config>-->
+    <!--<aop:pointcut id="transactionPointcut"-->
+    <!--expression="execution(* com.projn.alpsdao.*Dao.*(..))" />-->
+    <!--<aop:advisor pointcut-ref="transactionPointcut" advice-ref="transactionAdvice" />-->
+    <!--</aop:config>-->
+
+    <!--基于注解 SpringBoot通过@EnableTransactionManagement配置-->
+    <!--<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />-->
+
+</beans>

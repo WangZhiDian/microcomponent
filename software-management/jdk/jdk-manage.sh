@@ -3,11 +3,14 @@
 CURRENT_WORK_DIR=$(cd `dirname $0`; pwd)
 source ${CURRENT_WORK_DIR}/config.properties
 
+jdk_install_path=${install_path}
+rar_file=${CURRENT_WORK_DIR}/${jdk_rar_name}
+
 function usage()
 {
     echo "Usage: install.sh [--help]"
     echo ""
-    echo "install redis."
+    echo "install jdk."
     echo ""
     echo "  --help                  : help."
     echo ""
@@ -15,76 +18,53 @@ function usage()
     echo "  --uninstall             : uninstall."
 }
 
-function check_install()
-{
-    uninstall
-    return 0
-}
-
-function check_user_group()
-{
-    local tmp=$(cat /etc/group | grep ${1}: | grep -v grep)
-
-    if [ -z "$tmp" ]; then
-        return 2
-    else
-        return 0
-    fi
-}
-
-function check_user()
-{
-   if id -u ${1} >/dev/null 2>&1; then
-        return 0
-    else
-        return 2
-    fi
-}
-
-function check_file()
-{
-    if [ -f ${1} ]; then
-        return 0
-    else
-        return 2
-    fi
-}
-
-function check_dir()
-{
-    if [ -d ${1} ]; then
-        return 0
-    else
-        return 2
-    fi
-}
-
 function install()
 {
-    check_install
-    if [ $? != 0 ]; then
-        echo "Check install failed,check it please."
-        return 1
+    if [ -d ${jdk_install_path} ]; then
+      echo "jdk already installed,please uninstall first."
+    else
+      #没安装过jdk才开始安装
+      # 安装可能需要的插件
+      yum -y install glibc.i686
+      #先在opt中创建一个安装文件夹
+      mkdir -p ${jdk_install_path}
+      #将jdk解压到opt中
+      tar -xzf ${rar_file} -C ${jdk_install_path} --strip-components 1
+      #将解压好的jdk文件移动到opt/soft中，并改名为jdk180(解压后文件名叫jdk1.8.0_111)
+      # tar -xzvf jdk-8u251-linux-i586.tar.gz -C /opt/sortware/jdk/test_jdk/ --strip-components 1
+      #mv /opt/jdk1.8.0_111 /opt/soft/jdk180
+
+      #配置环境变量
+      sed -i '/JAVA_HOME/d' /etc/profile
+      echo '# JAVA_HOME Environment' >> /etc/profile
+      echo "export JAVA_HOME=${jdk_install_path}" >> /etc/profile
+      echo 'export PATH=$PATH:${JAVA_HOME}/bin' >> /etc/profile
+      echo 'export CLASSPATH=.:${JAVA_HOME}/jre/lib/rt.jar:${JAVA_HOME}/lib/dt.jar:${JAVA_HOME}/lib/tools.jar' >> /etc/profile
+
+      #使配置环境生效
+      source /etc/profile
+      echo '====================jdk complete==============='
     fi
-
-    yum install ${SOFTWARE_SOURCE_PACKAGE_NAME} -y
-
-    echo "Install success."
 
     return 0
 }
 
 function uninstall()
 {
-    result=`rpm -qa | grep java-1.`
-
-    for i in ${result[@]}
-    do
-        echo "Remove package "$i
-        rpm -e --nodeps $i
-    done
-
-    echo "Uninstall success."
+    #制定固定的目录，别被乱删了
+    fix_path="/opt/3rd"
+    if [ -d ${jdk_install_path} ]; then
+      if [[ ${jdk_install_path} = ${fix_path}* ]]
+      then
+          rm -rf ${jdk_install_path}
+          sed -i '/JAVA_HOME/d' /etc/profile
+          echo "Uninstall success."
+      else
+          echo "请确认目录"
+      fi
+    else
+      echo "没有对应的安装目录，未安装该版本包，请提前确认。"
+    fi
 }
 
 if [ ! `id -u` = "0" ]; then

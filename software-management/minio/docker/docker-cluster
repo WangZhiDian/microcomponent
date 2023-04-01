@@ -1,0 +1,22 @@
+
+
+docker run -d --name minio-01 --restart=always --net=host \
+-e "MINIO_ROOT_USER=admin" \
+-e "MINIO_ROOT_PASSWORD=admin123" \
+-v /data/minio/update:/data1 \
+-v /data/minio/bakup:/data2 \
+minio/minio:latest server \
+--address 172.16.40.70:9000 \
+--console-address '0.0.0.0:9999' http://minio{1...2}/data{1...2}
+
+
+docker run -d --name minio-02 --restart=always --net=host \
+-e "MINIO_ROOT_USER=admin" \
+-e "MINIO_ROOT_PASSWORD=admin123" \
+-v /data/minio/update:/data1 \
+-v /data/minio/bakup:/data2 \
+minio/minio:latest server \
+--address 172.16.40.71:9000 \
+--console-address '0.0.0.0:9999' http://minio{1...2}/data{1...2}
+
+

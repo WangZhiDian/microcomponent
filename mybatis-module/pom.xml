@@ -12,6 +12,13 @@
     <artifactId>mybatis-module</artifactId>
 
     <dependencies>
+
+        <dependency>
+            <groupId>com.meng</groupId>
+            <artifactId>component-mybatis</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -20,9 +27,11 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
+
+
         <!--数据库链接配置，使用alibaba的数据源链接池，使用mybatis-spring-boot-starter继承，
         使用mysql 5.x 的驱动-->
-        <dependency>
+<!--        <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
             <version>1.1.9</version>
@@ -35,7 +44,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-        </dependency>
+        </dependency>-->
         <!-- end -->
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -44,6 +53,7 @@
         </dependency>
 
     </dependencies>
+
 
 
     <build>
