@@ -1,4 +1,4 @@
-package com.meng.control;
+package com.meng.controller;
 
 
 import cn.hutool.core.io.FileUtil;

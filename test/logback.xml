@@ -17,11 +17,18 @@
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--日志文件输出的文件名-->
-            <fileNamePattern>${LOG_HOME}/sight.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>${LOG_HOME}/service.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!--日志文件保留时长天数-->
+            <MaxHistory>60</MaxHistory>
         </rollingPolicy>
-        <encoder>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
+        <!--日志文件最大的大小-->
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>10MB</MaxFileSize>
+        </triggeringPolicy>
     </appender>
 
     <!-- 异步输出 -->
@@ -35,11 +42,17 @@
     </appender>
 
 
+    <!--myibatis log configure-->
+    <!--<logger name="com.apache.ibatis" level="TRACE"/>
+    <logger name="java.sql.Connection" level="DEBUG"/>
+    <logger name="java.sql.Statement" level="DEBUG"/>
+    <logger name="java.sql.PreparedStatement" level="DEBUG"/>-->
+
     <logger name="org.apache.ibatis.cache.decorators.LoggingCache" level="DEBUG" additivity="false">
         <appender-ref ref="CONSOLE"/>
     </logger>
-    <logger name="com.cmict.price" level="debug"/>
-    <root level="info">
+    <logger name="com.meng" level="debug"/>
+    <root level="debug">
         <!--<appender-ref ref="ASYNC"/>-->
         <appender-ref ref="FILE"/>
         <appender-ref ref="CONSOLE"/>

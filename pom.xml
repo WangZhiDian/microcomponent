@@ -10,13 +10,22 @@
     <modules>
         <module>design-mode</module>
         <module>practice-module</module>
-        <module>common-module</module>
+        <module>commons-module</module>
         <module>component/component-mybatis</module>
         <module>mybatis-module</module>
         <module>mybatis-generator-module</module>
         <module>service-module</module>
         <module>access-module</module>
     </modules>
+<!--    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
+    </dependencies>-->
+
+
     <packaging>pom</packaging><!-- 这里添加，注意不是jar或war -->
 
 
