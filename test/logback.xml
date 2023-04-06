@@ -51,8 +51,8 @@
     <logger name="org.apache.ibatis.cache.decorators.LoggingCache" level="DEBUG" additivity="false">
         <appender-ref ref="CONSOLE"/>
     </logger>
-    <logger name="com.meng" level="debug"/>
-    <root level="debug">
+    <logger name="com.meng" level="info"/>
+    <root level="info">
         <!--<appender-ref ref="ASYNC"/>-->
         <appender-ref ref="FILE"/>
         <appender-ref ref="CONSOLE"/>

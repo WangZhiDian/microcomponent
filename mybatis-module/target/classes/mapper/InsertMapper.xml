@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.meng.dao.InsertUserDao">
+
+    <resultMap id="BaseResultMap" type="com.meng.domain.User">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="id" property="id" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="age" property="age" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <select id="getUserById" parameterType="Long" resultMap="BaseResultMap">
+        select id, name, age from tbl_mybatis_user
+        where id = #{id}
+    </select>
+
+
+    <!--void insertUserWithPrimaryKey(User user);
+    useGeneratedKeys：设置使用自增的主键
+    keyProperty：因为增删改有统一的返回值是受影响的行数，因此只能将获取的自增的主键放在传输的参数user对象的某个属性中-->
+    <insert id="insertUserWithPrimaryKey" parameterType="com.meng.domain.User"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into tbl_mybatis_user(name, age) value (#{name}, #{age});
+    </insert>
+    
+    <!--
+        int insertUserWithGenPrimaryKey(User user);
+        当数据库不支持自动生产主键时，可以使用该方法手动生产主键，代替自动生成
+    -->
+    <insert id="insertUserWithGenPrimaryKey">
+        <selectKey keyProperty="id" resultType="long" order="BEFORE">
+            select unix_timestamp(now())
+        </selectKey>
+        insert into tbl_mybatis_user(id,name, age) value (#{id}, #{name}, #{age});
+    </insert>
+
+    <!--replace into: 当数据有主键或者唯一键冲突的时候，先delete再insert，否则直接insert
+        问题：如果主键自增，通过唯一键replace，会很快耗尽主键范围
+             如果主键和其他键有关联，可能引起数据丢失-->
+    <!--    int replaceIntoUserValues(User user);-->
+    <insert id="replaceIntoUserValues">
+        replace into tbl_mybatis_user(id, name, age)
+        values (#{user.id}, #{user.name}, #{user.age})
+    </insert>
+
+    <!--    int batchReplaceIntoUser(@Param("userList") List<User> userList);-->
+    <insert id="batchReplaceIntoUser">
+        replace into tbl_mybatis_user(id, name, age)
+        values
+        <foreach collection="userList" item="user" open="" close="" separator=",">
+            (
+            #{user.id},
+            #{user.name},
+            #{user.age}
+            )
+        </foreach>
+    </insert>
+
+    <!-- int replaceIntoUserSet(User user);-->
+
+
+    <!-- 使用insert on duplicate update，由于其中可能使用到插入意向锁和间隙锁（gap lock），可能会引起死锁
+         消除方式：1 去掉duplicate方式，使用常规insert，失败时用catch处理；2 换5.6mysql版本；3 只使用主键索引-->
+    <!-- int insertUserOnDuplicate(User user);-->
+    <insert id="insertUserOnDuplicate">
+        insert into tbl_mybatis_user(id, name, age)
+        values (#{user.id}, #{user.name}, #{user.age})
+        on duplicate key update
+            name = values (name),
+            age = values (age)
+    </insert>
+
+
+    <!-- int batchInsertUserOneSql(@Param("userList") List<User> userList);-->
+    <insert id="batchInsertUserOneSql">
+        insert into tbl_mybatis_user(id, name, age)
+        values
+        <foreach collection="userList" item="user" separator=",">
+            (
+              #{user.id},
+              #{user.name},
+              #{user.age}
+            )
+        </foreach>
+    </insert>
+
+    <!-- int batchInsertUserMultiSql(@Param("userList") List<User> userList, @Param("age") int age);-->
+    <insert id="batchInsertUserMultiSql">
+        <foreach collection="userList" item="user" separator=";">
+            insert into tbl_mybatis_user(id, name, age)
+            values (#{user.id}, #{user.name}, #{user.age})
+        </foreach>
+    </insert>
+
+
+</mapper>
+

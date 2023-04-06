@@ -12,6 +12,7 @@
         <module>practice-module</module>
         <module>commons-module</module>
         <module>component/component-mybatis</module>
+        <module>component/component-redis</module>
         <module>mybatis-module</module>
         <module>mybatis-generator-module</module>
         <module>service-module</module>

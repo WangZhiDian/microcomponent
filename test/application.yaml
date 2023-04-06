@@ -23,6 +23,11 @@ system:
   bean:
     switch:
       mybatis: true
+      redis:
+        single: true
+        sentinel: false
+        cluster: false
+
 
 http:
   url: 10.11.2.7:8080/select/sight/info

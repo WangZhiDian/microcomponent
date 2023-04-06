@@ -1,8 +1,20 @@
 1 在docker安装后的前提下，安装redis：
 提前创建好redis对应的配置文件redis.conf
 docker pull redis
-docker run -p 6379:6379 --name redis -v /mydata/redis/data:/data -v /mydata/redis/conf/redis.conf:/etc/redis/redis.conf -d redis redis-server /etc/redis/redis.conf
-设置docker重启后的容器自动重启：docker update redis --restart=always
+docker run -p 6379:6379 --name redis -v /mydata/redis/data:/data \
+-v /mydata/redis/conf/redis.conf:/etc/redis/redis.conf -d redis \
+redis-server /etc/redis/redis.conf
+
+
+docker run -p 6379:6379 --name redis -v /mydata/redis/data:/data \
+-v /mydata/redis/conf/redis.conf:/etc/redis/redis.conf -d redis \
+redis-server /etc/redis/redis.conf
+
+简单创建，无挂载：
+docker run -itd --name redis-6379 -p 6379:6379 redis --requirepass 123456
+
+设置docker重启后的容器自动重启：
+docker update redis --restart=always
 
 
 
