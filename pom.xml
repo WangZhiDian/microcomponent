@@ -13,6 +13,8 @@
         <module>commons-module</module>
         <module>component/component-mybatis</module>
         <module>component/component-redis</module>
+        <module>component/component-kafka-producer</module>
+        <module>component/component-kafka-consumer</module>
         <module>mybatis-module</module>
         <module>mybatis-generator-module</module>
         <module>service-module</module>

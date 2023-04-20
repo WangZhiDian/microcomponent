@@ -1,1 +1,10 @@
 
+1 默认登录
+mysql -hlocalhost -uroot -pmobile@2023
+2 修改访问权限
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'Mobile@123' WITH GRANT OPTION;
+3 刷新访问权限
+flush privileges;
+
+
+

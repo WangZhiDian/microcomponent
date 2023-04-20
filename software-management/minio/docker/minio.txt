@@ -57,20 +57,6 @@ docker  run -d --name minio \
 minio/minio server http://minio{1...2}/data{1...4} \
 --console-address ":9001"
 
-docker  run -d --name minio \
--p 9000:9000  \
--p 9001:9001  \
---restart=always  --net=host \
--e MINIO_ACCESS_KEY=minio \
--e MINIO_SECRET_KEY=minio123 \
--v /opt/cloud/minio/config:/root/.minio \
--v /opt/cloud/minio/data1:/data1 \
--v /opt/cloud/minio/data2:/data2 \
--v /opt/cloud/minio/data3:/data3 \
--v /opt/cloud/minio/data4:/data4 \
-minio/minio:RELEASE.2022-02-12T00-51-25Z server http://minio{1...2}/data{1...4} \
---console-address ":9001"
-
 
 # 可行，集群安装，service后面等路径，是容器里面的数据路径（注：minio的磁盘需要独立挂载）
 docker  run -d --name minio \

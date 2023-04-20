@@ -1,0 +1,81 @@
+
+参考csdn：
+搭建kafka的docker集群：https://blog.csdn.net/u011651342/article/details/127096588
+创建kafka manage的docker应用：https://blog.csdn.net/hunheidaode/article/details/121416949
+spring kafka:https://blog.csdn.net/qq_32641153/article/details/99132577
+
+1 拉取和启动zookeeper的镜像
+docker pull wurstmeister/zookeeper
+
+创建和启动zookeeper镜像
+docker run -d --name zookeeper -p 2181:2181 \
+-e TZ="Asia/Shanghai" \
+--restart=always \
+wurstmeister/zookeeper
+
+
+2 拉取和启动kafka的镜像，可能需要设置防火墙或者安全组
+docker pull wurstmeister/kafka
+创建和启动kafka
+docker run -d --name kafka0 --publish 9092:9092 \
+--env KAFKA_BROKER_ID=0 \
+--env HOST_IP=172.16.40.61 \
+--env KAFKA_ZOOKEEPER_CONNECT=172.16.40.61:2181 \
+--env KAFKA_ADVERTISED_HOST_NAME=172.16.40.61 \
+--env KAFKA_ADVERTISED_PORT=9092 \
+--env KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092 \
+--restart=always \
+-e TZ="Asia/Shanghai" \
+wurstmeister/kafka
+
+docker run -d --name kafka1 --publish 9093:9093 \
+--env KAFKA_BROKER_ID=1 \
+--env HOST_IP=172.16.40.61 \
+--env KAFKA_ZOOKEEPER_CONNECT=172.16.40.61:2181 \
+--env KAFKA_ADVERTISED_HOST_NAME=172.16.40.61 \
+--env KAFKA_ADVERTISED_PORT=9093 \
+--env KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9093 \
+--restart=always \
+-e TZ="Asia/Shanghai" \
+wurstmeister/kafka
+
+docker run -d --name kafka2 --publish 9094:9094 \
+--env KAFKA_BROKER_ID=2 \
+--env HOST_IP=172.16.40.61 \
+--env KAFKA_ZOOKEEPER_CONNECT=172.16.40.61:2181 \
+--env KAFKA_ADVERTISED_HOST_NAME=172.16.40.61 \
+--env KAFKA_ADVERTISED_PORT=9094 \
+--env KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9094 \
+--restart=always \
+-e TZ="Asia/Shanghai" \
+wurstmeister/kafka
+
+3 登录kafka并创建topic
+登录任意一个kafka，并进入opt下的kafka_xxx目录
+docker exec -it kafka0 /bin/bash
+cd /opt/kafka_xxx
+创建主题：topic-demo 3个分区 2个副本
+bin/kafka-topics.sh --zookeeper 172.16.40.61:2181 --create --topic topic-demo --partitions 3 --replication-factor 2
+
+bin/kafka-topics.sh --zookeeper 172.16.40.61:2181 --describe --topic topic-demo
+
+
+
+4 拉取和启动kafka manage的镜像
+docker pull sheepkiller/kafka-manager
+
+docker run -d --name kafka-manager \
+--restart always \
+-p 9009:9000 -e ZK_HOSTS=172.16.40.61:2181 \
+sheepkiller/kafka-manager
+
+
+5 后端登录到kafka后，发送消息测试：
+#打开生产者终端，在窗口光标闪动时，可发送消息
+bin/kafka-console-producer.sh --broker-list localhost:9092 --topic topic-demo
+
+监听消息测试：
+#订阅主题topic-demo，并处于等待消息的状态
+bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic topic-demo
+
+

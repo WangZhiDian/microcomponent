@@ -13,7 +13,8 @@ vim  /etc/default/minio
 
 
 
-/usr/local/bin/minio server --console-address :9001 http://minio{1...2}.example.com:9000/opt/minio/data
+/usr/local/bin/minio server --console-address :9001 \
+http://minio{1...2}.example.com:9000/opt/minio/data
 
 ./minio server --console-address :9001 http://minio{1...2}.example.com:9000/minio
 
@@ -31,13 +32,17 @@ http://172.16.40.71/minio/data2
 export MINIO_ROOT_USER=admin
 export MINIO_ROOT_PASSWORD=admin123
 /opt/minio/minio server --address ":9000" --console-address ":9001" \
-http://172.16.40.61/opt/cloud/data/data1 \
+http://172.16.40.61/minio/data1 \
 http://172.16.40.61/minio/data2 \
 http://172.16.40.62/minio/data1 \
 http://172.16.40.62/minio/data2
 
 
-/opt/minio/app/minio server --address ":9000" --console-address ":9001" http://172.16.40.70/minio/data1 http://172.16.40.70/minio/data2 http://172.16.40.71/minio/data1 http://172.16.40.71/minio/data2
+/opt/minio/app/minio server --address ":9000" --console-address ":9001"
+http://172.16.40.70/minio/data1
+http://172.16.40.70/minio/data2
+http://172.16.40.71/minio/data1
+http://172.16.40.71/minio/data2
 
 
 

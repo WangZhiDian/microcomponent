@@ -1,0 +1,108 @@
+
+mysql8安装完以后，设置不了grant：
+https://blog.csdn.net/firstcode666/article/details/120603019
+
+主备部署：
+https://blog.csdn.net/qq_51417587/article/details/119760146
+如下部分步骤：
+
+rpm -ivh mysql-community-common-8.0.31-1.el7.x86_64.rpm
+rpm -ivh mysql-community-client-plugins-8.0.31-1.el7.x86_64.rpm
+rpm -ivh mysql-community-libs-8.0.31-1.el7.x86_64.rpm
+rpm -ivh mysql-community-client-8.0.31-1.el7.x86_64.rpm
+rpm -ivh mysql-community-icu-data-files-8.0.31-1.el7.x86_64.rpm
+rpm -ivh mysql-community-server-8.0.31-1.el7.x86_64.rpm
+
+mysqladmin --version
+systemctl status mysqld
+systemctl start mysqld
+systemctl stop mysqld
+systemctl restart mysqld
+systemctl enable mysqld
+systemctl daemon-reload
+
+
+cat /var/log/mysqld.log | grep password
+
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'Mobile@123';
+
+
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'Mobile@123';
+
+#注：账号plugin类型mysql_native_password，从节点change命令不用加GET_MASTER_PUBLIC_KEY=1，否则需要加上
+use mysql;
+update user set host = "%" where user='root';
+ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'Mobile@2023';
+flush privileges;
+
+CREATE USER 'graps'@'%' IDENTIFIED BY 'Mobile@2023';
+GRANT ALL ON *.* TO 'graps'@'%';
+ALTER USER 'graps'@'%' IDENTIFIED WITH mysql_native_password BY 'Mobile@2023';
+FLUSH PRIVILEGES;
+
+cp -rf /var/lib/mysql /opt/data
+chown -R mysql:mysql /opt/data/mysql
+service mysqld start
+
+#mysql 8修改datadir之后不能启动，可能需要设置enforce如下：
+setenforce 0
+
+lower_case_table_names = 1
+// 有值0 1 2，mysql8中，该配置需要在初始化启动前，就写在/etc/my.cnf里面，否则后续回报异常：Different lower_case_table_names settings for server ('1') and data dictionary ('0').
+错误：ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (
+处理：登录时加上127.0.0.1 -> mysql -h 127.0.0.1 -ugraps -p
+是这必须要使用root账号：
+master:
+CREATE USER 'repl'@'192.168.0.25' IDENTIFIED WITH mysql_native_password BY 'Mobile@2023';
+ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'Mobile@2023';
+
+GRANT REPLICATION SLAVE ON *.* TO 'repl'@'192.168.0.25';
+
+flush privileges;
+
+slave:
+CHANGE MASTER TO MASTER_HOST='192.168.0.91',MASTER_USER ='repl', MASTER_PASSWORD='Mobile@2023',MASTER_LOG_FILE='mysql-bin.000003',MASTER_LOG_POS=740;
+
+start slave;
+
+//取消主从同步,登录从
+stop slave;
+reset slave;
+
+
+CREATE DATABASE tourism2;
+CREATE TABLE test2
+(
+	ROLL_NO int(3),
+	NAME varchar(20),
+	SUBJECT varchar(20)
+);
+
+
+#mysql8 my.cnf  master内容：
+[mysqld]
+
+log-bin=mysql-bin
+server-id=1
+innodb_buffer_pool_size = 40960M
+max_connections=5000
+innodb_file_per_table=1
+innodb_log_file_size=256M
+innodb_read_io_threads=16
+innodb_write_io_threads=16
+innodb_io_capacity=5000
+innodb_io_capacity_max=50000
+innodb_thread_concurrency=0
+innodb_buffer_pool_instances=4
+skip-name-resolve
+
+lower_case_table_names=1
+
+datadir=/opt/data/mysql
+socket=/opt/data/mysql/mysql.sock
+#datadir=/var/lib/mysql
+#socket=/var/lib/mysql/mysql.sock
+
+log-error=/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid
+

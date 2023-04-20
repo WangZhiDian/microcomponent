@@ -8,27 +8,27 @@ import org.springframework.stereotype.Component;
 
 @Data
 @Configuration
-@Component
-@PropertySource(value = "classpath:/minio.properties")
+@PropertySource(value = "file:${config.dir}/config/minio.properties")
 public class MinioProp {
 
     /**
      * 连接url
      */
-    @Value("${endpoint}")
+    @Value("${minio.endpoint}")
     private String endpoint;
     /**
      * 用户名
      */
-    @Value("${accesskey}")
+    @Value("${minio.accesskey}")
     private String accesskey;
+
     /**
      * 密码
      */
-    @Value("${secretKey}")
+    @Value("${minio.secretKey}")
     private String secretKey;
 
-    @Value("${bucketName}")
+    @Value("${minio.bucketName}")
     private String bucketName;
 
 }

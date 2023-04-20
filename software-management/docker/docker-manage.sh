@@ -26,9 +26,14 @@ function install()
     fi
     # 安装yum-utils， 其中包含了yum-config-manager等工具
     yum install -y yum-utils
+    #yum-config-manager \
+    #    --add-repo \
+    #    https://download.docker.com/linux/centos/docker-ce.repo
+
+    #阿里云
     yum-config-manager \
         --add-repo \
-        https://download.docker.com/linux/centos/docker-ce.repo
+        http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
 
     #默认安装等最新版本等docker
     if [ $# -eq 0 ]; then
