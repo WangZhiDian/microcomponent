@@ -1,3 +1,4 @@
+/*
 package com.meng.util;
 
 import io.minio.*;
@@ -22,9 +23,11 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
+*/
 /**
  * MinIO 客户端工具类
- */
+ *//*
+
 @Component
 @Slf4j
 public class MinioClientUtils {
@@ -34,12 +37,14 @@ public class MinioClientUtils {
 
     private static final int DEFAULT_EXPIRY_TIME = 7 * 24 * 3600;
 
-    /**
+    */
+/**
      * 检查存储桶是否存在
      *
      * @param bucketName 存储桶名称
      * @return boolean
-     */
+     *//*
+
     public boolean bucketExists(String bucketName) throws IOException, InvalidKeyException, InvalidResponseException,
             InsufficientDataException, NoSuchAlgorithmException, ServerException, InternalException, XmlParserException, ErrorResponseException, InvalidBucketNameException {
         boolean flag = false;
@@ -50,11 +55,13 @@ public class MinioClientUtils {
         return false;
     }
 
-    /**
+    */
+/**
      * 创建存储桶
      *
      * @param bucketName 存储桶名称
-     */
+     *//*
+
     public boolean makeBucket(String bucketName) throws IOException, InvalidKeyException, InvalidResponseException,
             InsufficientDataException, NoSuchAlgorithmException, ServerException, InternalException, XmlParserException,
             ErrorResponseException, RegionConflictException, InvalidBucketNameException {
@@ -70,11 +77,13 @@ public class MinioClientUtils {
         }
     }
 
-    /**
+    */
+/**
      * 列出所有存储桶名称
      *
      * @return List<String>
-     */
+     *//*
+
     public List<String> listBucketNames() throws IOException, InvalidResponseException, InvalidKeyException,
             NoSuchAlgorithmException, ServerException, ErrorResponseException, XmlParserException,
             InsufficientDataException, InternalException, InvalidBucketNameException {
@@ -86,23 +95,27 @@ public class MinioClientUtils {
         return bucketListName;
     }
 
-    /**
+    */
+/**
      * 列出所有存储桶
      *
      * @return List<Bucket>
-     */
+     *//*
+
     public List<Bucket> listBuckets() throws IOException, InvalidKeyException, InvalidResponseException,
             InsufficientDataException, NoSuchAlgorithmException, ServerException, InternalException, XmlParserException,
             ErrorResponseException, InvalidBucketNameException {
         return minioClient.listBuckets();
     }
 
-    /**
+    */
+/**
      * 删除存储桶
      *
      * @param bucketName 存储桶名称
      * @return boolean
-     */
+     *//*
+
     public boolean removeBucket(String bucketName) throws IOException, InvalidKeyException, InvalidResponseException,
             InsufficientDataException, NoSuchAlgorithmException, ServerException, InternalException, XmlParserException,
             ErrorResponseException, InvalidBucketNameException {
@@ -127,12 +140,14 @@ public class MinioClientUtils {
         return false;
     }
 
-    /**
+    */
+/**
      * 列出存储桶中的所有对象名称
      *
      * @param bucketName 存储桶名称
      * @return List<String>
-     */
+     *//*
+
     public List<String> listObjectNames(String bucketName) throws XmlParserException, IOException,
             InvalidResponseException, InvalidKeyException, NoSuchAlgorithmException, ServerException,
             ErrorResponseException, InsufficientDataException, InternalException, InvalidBucketNameException {
@@ -148,12 +163,14 @@ public class MinioClientUtils {
         return listObjectNames;
     }
 
-    /**
+    */
+/**
      * 列出存储桶中的所有对象
      *
      * @param bucketName 存储桶名称
      * @return Iterable<Result<Item>>
-     */
+     *//*
+
     public Iterable<Result<Item>> listObjects(String bucketName) throws XmlParserException, IOException, InvalidResponseException, InvalidKeyException, NoSuchAlgorithmException, ServerException, ErrorResponseException, InvalidBucketNameException, InsufficientDataException, InternalException {
         boolean flag = bucketExists(bucketName);
         if (flag) {
@@ -162,14 +179,16 @@ public class MinioClientUtils {
         return null;
     }
 
-    /**
+    */
+/**
      * 通过文件上传到对象
      *
      * @param bucketName 存储桶名称
      * @param objectName 存储桶里的对象名称
      * @param fileName   File name
      * @return boolean
-     */
+     *//*
+
     public boolean uploadObject(String bucketName, String objectName, String fileName) throws IOException, InvalidKeyException, InvalidResponseException, InsufficientDataException, NoSuchAlgorithmException, ServerException, InternalException, XmlParserException, InvalidBucketNameException, ErrorResponseException {
         boolean flag = bucketExists(bucketName);
         if (flag) {
@@ -185,13 +204,15 @@ public class MinioClientUtils {
 
     }
 
-    /**
+    */
+/**
      * 文件上传
      *
      * @param bucketName 存储捅名称
      * @param multipartFile 文件
      * @param filename   文件名
-     */
+     *//*
+
     public void putObject(String bucketName, MultipartFile multipartFile, String filename) throws IOException, InvalidKeyException, InvalidResponseException, InsufficientDataException, NoSuchAlgorithmException, ServerException, InternalException, XmlParserException, InvalidBucketNameException, ErrorResponseException {
         PutObjectOptions putObjectOptions = new PutObjectOptions(multipartFile.getSize(), PutObjectOptions.MIN_MULTIPART_SIZE);
         putObjectOptions.setContentType(multipartFile.getContentType());
@@ -201,7 +222,8 @@ public class MinioClientUtils {
                         .build());
     }
 
-    /**
+    */
+/**
      * 通过InputStream上传对象
      *
      * @param bucketName 存储桶名称
@@ -209,7 +231,8 @@ public class MinioClientUtils {
      * @param inputStream     要上传的流
      * @param contentType 上传的文件类型 例如 video/mp4  image/jpg
      * @return boolean
-     */
+     *//*
+
     public boolean putObject(String bucketName, String objectName, InputStream inputStream,String contentType) throws IOException, InvalidResponseException, InvalidKeyException, NoSuchAlgorithmException, ServerException, ErrorResponseException, XmlParserException, InvalidBucketNameException, InsufficientDataException, InternalException {
         boolean flag = bucketExists(bucketName);
         if (flag) {
@@ -226,13 +249,15 @@ public class MinioClientUtils {
         return false;
     }
 
-    /**
+    */
+/**
      * 以流的形式获取一个文件对象
      *
      * @param bucketName 存储桶名称
      * @param objectName 存储桶里的对象名称
      * @return InputStream
-     */
+     *//*
+
     public InputStream getObject(String bucketName, String objectName) throws IOException, InvalidKeyException, InvalidResponseException, InsufficientDataException, NoSuchAlgorithmException, ServerException, InternalException, XmlParserException, InvalidBucketNameException, ErrorResponseException {
         boolean flag = bucketExists(bucketName);
         if (flag) {
@@ -248,7 +273,8 @@ public class MinioClientUtils {
         return null;
     }
 
-    /**
+    */
+/**
      * 以流的形式获取一个文件对象（断点下载）
      *
      * @param bucketName 存储桶名称
@@ -256,7 +282,8 @@ public class MinioClientUtils {
      * @param offset     起始字节的位置
      * @param length     要读取的长度 (可选，如果无值则代表读到文件结尾)
      * @return InputStream
-     */
+     *//*
+
     public InputStream getObject(String bucketName, String objectName, long offset, Long length) throws IOException, InvalidKeyException, InvalidResponseException, InsufficientDataException, NoSuchAlgorithmException, ServerException, InternalException, XmlParserException, InvalidBucketNameException, ErrorResponseException {
         boolean flag = bucketExists(bucketName);
         if (flag) {
@@ -274,14 +301,16 @@ public class MinioClientUtils {
         return null;
     }
 
-    /**
+    */
+/**
      * 下载并将文件保存到本地
      *
      * @param bucketName 存储桶名称
      * @param objectName 存储桶里的对象名称
      * @param fileName   File name
      * @return boolean
-     */
+     *//*
+
     public boolean downloadObject(String bucketName, String objectName, String fileName) throws IOException, InvalidKeyException, InvalidResponseException, InsufficientDataException, NoSuchAlgorithmException, ServerException, InternalException, XmlParserException, InvalidBucketNameException, ErrorResponseException {
         boolean flag = bucketExists(bucketName);
         if (flag) {
@@ -298,12 +327,14 @@ public class MinioClientUtils {
         return false;
     }
 
-    /**
+    */
+/**
      * 删除一个对象
      *
      * @param bucketName 存储桶名称
      * @param objectName 存储桶里的对象名称
-     */
+     *//*
+
     public boolean removeObject(String bucketName, String objectName) throws IOException, InvalidKeyException, InvalidResponseException, InsufficientDataException, NoSuchAlgorithmException, ServerException, InternalException, XmlParserException, InvalidBucketNameException, ErrorResponseException {
         boolean flag = bucketExists(bucketName);
         if (flag) {
@@ -313,7 +344,8 @@ public class MinioClientUtils {
         return false;
     }
 
-    /**
+    */
+/**
      * 删除指定桶的多个文件对象,返回删除错误的对象列表，全部删除成功，返回空列表
      *
      * @param bucketName  存储桶名称
@@ -324,7 +356,8 @@ public class MinioClientUtils {
      * objects.add(new DeleteObject("my-objectname1"));
      * objects.add(new DeleteObject("my-objectname2"));
      * objects.add(new DeleteObject("my-objectname3"));
-     */
+     *//*
+
     public List<String> removeObjects(String bucketName, List<DeleteObject> objectNames) throws IOException, InvalidKeyException, InvalidResponseException, InsufficientDataException, NoSuchAlgorithmException, ServerException, InternalException, XmlParserException, InvalidBucketNameException, ErrorResponseException {
         List<String> deleteErrorNames = new ArrayList<>();
         boolean flag = bucketExists(bucketName);
@@ -338,7 +371,8 @@ public class MinioClientUtils {
         return deleteErrorNames;
     }
 
-    /**
+    */
+/**
      * 生成一个给HTTP GET请求用的presigned URL。
      * 浏览器/移动端的客户端可以用这个URL进行下载，即使其所在的存储桶是私有的。这个presigned URL可以设置一个失效时间，默认值是7天。
      *
@@ -346,7 +380,8 @@ public class MinioClientUtils {
      * @param objectName 存储桶里的对象名称
      * @param expires    失效时间（以秒为单位），默认是7天，不得大于七天
      * @return
-     */
+     *//*
+
     public String getPresignedObjectUrl(String bucketName, String objectName, Integer expires) throws InvalidExpiresRangeException, IOException, InvalidResponseException, InvalidKeyException, NoSuchAlgorithmException, ServerException, ErrorResponseException, XmlParserException, InvalidBucketNameException, InsufficientDataException, InternalException {
         boolean flag = bucketExists(bucketName);
         String url = "";
@@ -372,7 +407,8 @@ public class MinioClientUtils {
         return url;
     }
 
-    /**
+    */
+/**
      * 生成一个给HTTP PUT请求用的presigned URL。
      * 浏览器/移动端的客户端可以用这个URL进行上传，即使其所在的存储桶是私有的。这个presigned URL可以设置一个失效时间，默认值是7天。
      *
@@ -380,7 +416,8 @@ public class MinioClientUtils {
      * @param objectName 存储桶里的对象名称
      * @param expires    失效时间（以秒为单位），默认是7天，不得大于七天
      * @return String
-     */
+     *//*
+
     public String presignedPutObject(String bucketName, String objectName, Integer expires) throws IOException, InvalidResponseException, InvalidKeyException, NoSuchAlgorithmException, ServerException, ErrorResponseException, XmlParserException, InvalidBucketNameException, InsufficientDataException, InternalException {
         boolean flag = bucketExists(bucketName);
         String url = "";
@@ -428,13 +465,15 @@ public class MinioClientUtils {
         return url;
     }
 
-    /**
+    */
+/**
      * 获取对象的元数据
      *
      * @param bucketName 存储桶名称
      * @param objectName 存储桶里的对象名称
      * @return
-     */
+     *//*
+
     public ObjectStat statObject(String bucketName, String objectName) throws IOException, InvalidResponseException, InvalidKeyException, NoSuchAlgorithmException, ServerException, ErrorResponseException, XmlParserException, InvalidBucketNameException, InsufficientDataException, InternalException {
         boolean flag = bucketExists(bucketName);
         if (flag) {
@@ -468,13 +507,15 @@ public class MinioClientUtils {
         return null;
     }
 
-    /**
+    */
+/**
      * 文件访问路径
      *
      * @param bucketName 存储桶名称
      * @param objectName 存储桶里的对象名称
      * @return String
-     */
+     *//*
+
     public String getObjectUrl(String bucketName, String objectName) throws IOException, InvalidResponseException, InvalidKeyException, NoSuchAlgorithmException, ServerException, ErrorResponseException, XmlParserException, InvalidBucketNameException, InsufficientDataException, InternalException {
         boolean flag = bucketExists(bucketName);
         String url = "";
@@ -536,3 +577,4 @@ public class MinioClientUtils {
         }
     }
 }
+*/

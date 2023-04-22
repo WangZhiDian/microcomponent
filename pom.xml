@@ -15,6 +15,8 @@
         <module>component/component-redis</module>
         <module>component/component-kafka-producer</module>
         <module>component/component-kafka-consumer</module>
+        <module>component/component-es</module>
+        <module>component/component-minio</module>
         <module>mybatis-module</module>
         <module>mybatis-generator-module</module>
         <module>service-module</module>
@@ -105,13 +107,9 @@
         <httpclient.version>4.5.13</httpclient.version>
         <snakeyaml.version>1.29</snakeyaml.version>
         <grpc.version>1.45.0</grpc.version>
-
-        <alps.version>1.0.8</alps.version>
-
-        <alps.common.version>1.0.8</alps.common.version>
-        <alps.loader.version>1.0.8</alps.loader.version>
-        <alps.test.version>1.0.8</alps.test.version>
-
+        <minio.version>8.4.2</minio.version>
+       <!-- <minio.version>8.5.2</minio.version>-->
+        <okhttp.version>4.9.0</okhttp.version>
     </properties>
 
     <!-- 子模块继承之后，提供作用：
@@ -123,8 +121,19 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
                 <version>2.2.2.RELEASE</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.squareup.okhttp3</groupId>
+                        <artifactId>okhttp</artifactId>
+                    </exclusion>
+                </exclusions>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.squareup.okhttp3</groupId>
+                <artifactId>okhttp</artifactId>
+                <version>${okhttp.version}</version>
             </dependency>
             <!--spring cloud Hoxton.SR1-->
             <dependency>

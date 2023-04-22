@@ -38,14 +38,6 @@ http://172.16.40.62/minio/data1 \
 http://172.16.40.62/minio/data2
 
 
-/opt/minio/app/minio server --address ":9000" --console-address ":9001"
-http://172.16.40.70/minio/data1
-http://172.16.40.70/minio/data2
-http://172.16.40.71/minio/data1
-http://172.16.40.71/minio/data2
-
-
-
 export MINIO_ROOT_USER=admin
 export MINIO_ROOT_PASSWORD=admin123
 /opt/minio/app/minio server --address ":9000" --console-address ":9001" http://172.16.40.70/minio/data1 http://172.16.40.70/minio/data2 http://172.16.40.71/minio/data

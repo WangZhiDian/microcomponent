@@ -19,7 +19,7 @@ public class MinioProp {
     /**
      * 用户名
      */
-    @Value("${minio.accesskey}")
+    @Value("${minio.accessKey}")
     private String accesskey;
 
     /**

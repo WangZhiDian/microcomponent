@@ -1,3 +1,4 @@
+/*
 package com.meng.controller;
 
 
@@ -70,7 +71,8 @@ public class FileHandleController {
                 String bucketName = minioProp.getBucketName();
                 minioClientUtils.putObject(bucketName,file,minioFileName);
                 String fileUrl = minioClientUtils.getObjectUrl(bucketName, minioFileName);
-                /*MinioFile minioFile = new MinioFile();
+                */
+/*MinioFile minioFile = new MinioFile();
                 minioFile.setOriginalFileName(originalFilename);
                 minioFile.setFileExtName(extName);
                 minioFile.setFileName(minioFileName);
@@ -85,7 +87,8 @@ public class FileHandleController {
                     minioResponseDTO.setOriginalFileName(originalFilename);
                     minioResponseDTO.setFileUrl(fileUrl);
                     MinioResponseDTOList.add(minioResponseDTO);
-                }*/
+                }*//*
+
 
 
 
@@ -100,11 +103,13 @@ public class FileHandleController {
     }
 
 
-    /**
+    */
+/**
      * 仅仅用于测试，是否可以正常上传文件
      * @return
      * @throws Exception
-     */
+     *//*
+
     @GetMapping("/test")
     //@ApiOperation(value = "测试minio文件上传")
     public ApiResult testPutObject() throws Exception {
@@ -114,11 +119,13 @@ public class FileHandleController {
         return ApiResult.success("上传成功");
     }
 
-    /**
+    */
+/**
      * 仅仅用于测试，是否可以获取桶
      * @return
      * @throws Exception
-     */
+     *//*
+
     @GetMapping("/buckets/list")
     //@ApiOperation(value = "测试minio文件上传")
     public ApiResult listPutObject() throws Exception {
@@ -219,3 +226,4 @@ public class FileHandleController {
     }
 
 }
+*/

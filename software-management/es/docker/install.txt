@@ -1,0 +1,44 @@
+
+docker安装es：https://zhuanlan.zhihu.com/p/576557188
+
+1下载：
+docker pull elasticsearch:7.7.0
+
+2创建需要挂载的目录：
+mkdir es_docker
+cd es_docker
+mkdir config logs plugins
+chmod -R 777 config logs plugins
+
+3进入config，编辑elasticsearch.yml文件，并使用vi命令插入如下内容：
+http.host: 0.0.0.0
+
+4启动：
+docker run --name es -p 9200:9200  -p 9300:9300 \
+       -e "discovery.type=single-node"  \
+       -e ES_JAVA_OPTS="-Xms84m -Xmx512m"  \
+       -v /opt/es_docker/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml \
+       -v /opt/es_docker/data:/usr/share/elasticsearch/data  \
+       -v /opt/es_docker/plugins:/usr/share/elasticsearch/plugins  \
+       -d elasticsearch:7.7.0
+
+5查看：
+docker log es
+http://ip:9200
+
+6下载并且安装查看界面的镜像
+docker pull mobz/elasticsearch-head:5
+docker run -d --name es-head -p 9100:9100 docker.io/mobz/elasticsearch-head:5
+
+7查看界面：
+http://ip:9100
+
+8修改elasticsearcy.yml，添加下列内容，否则可能有跨域：
+http.cors.enabled: true
+http.cors.allow-origin: "*"
+
+9重启es：
+docker restart es
+
+
+

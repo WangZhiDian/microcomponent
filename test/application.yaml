@@ -27,6 +27,7 @@ system:
         single: true
         sentinel: false
         cluster: false
+      elasticsearch: true
 
 
 http:

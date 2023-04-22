@@ -25,11 +25,11 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <!--低版本的okhttp会报错提示-->
-        <dependency>
+<!--        <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
-            <version>4.9.0</version>
-        </dependency>
+            <version>4.10.0</version>
+        </dependency>-->
 
 <!--        <dependency>
             <groupId>io.minio</groupId>
@@ -43,11 +43,11 @@
             </exclusions>
         </dependency>-->
 
-        <dependency>
+<!--        <dependency>
             <groupId>io.minio</groupId>
             <artifactId>minio</artifactId>
             <version>7.1.0</version>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>cn.hutool</groupId>
@@ -78,9 +78,21 @@
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
 
-        <dependency>
+<!--        <dependency>
             <groupId>com.meng</groupId>
             <artifactId>component-kafka-consumer</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>-->
+
+        <dependency>
+            <groupId>com.meng</groupId>
+            <artifactId>component-es</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.meng</groupId>
+            <artifactId>component-minio</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
 
