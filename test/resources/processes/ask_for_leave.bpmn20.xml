@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:flowable="http://flowable.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.flowable.org/processdef">
+    <process id="ask_for_leave" name="ask_for_leave" isExecutable="true">
+      <userTask id="leaveTask" name="请假" flowable:assignee="#{leaveTask}"/>
+      <userTask id="zuzhangTask" name="组长审核" flowable:assignee="#{zuzhangTask}"/>
+      <userTask id="managerTask" name="经理审核" flowable:assignee="#{managerTask}"/>
+      <exclusiveGateway id="managerJudgeTask"/>
+      <exclusiveGateway id="zuzhangJudeTask"/>
+      <endEvent id="endLeave" name="结束"/>
+      <startEvent id="startLeave" name="开始"/>
+      <sequenceFlow id="flowStart" sourceRef="startLeave" targetRef="leaveTask"/>
+      <sequenceFlow id="modeFlow" sourceRef="leaveTask" targetRef="zuzhangTask"/>
+      <sequenceFlow id="zuzhang_go" sourceRef="zuzhangJudeTask" targetRef="managerTask" name="通过">
+        <conditionExpression xsi:type="tFormalExpression"><![CDATA[${checkResult=='通过'}]]></conditionExpression>
+      </sequenceFlow>
+      <sequenceFlow id="zuzhang_reject" sourceRef="zuzhangJudeTask" targetRef="sendMail" name="拒绝">
+        <conditionExpression xsi:type="tFormalExpression"><![CDATA[${checkResult=='拒绝'}]]></conditionExpression>
+      </sequenceFlow>
+      <sequenceFlow id="jugdeFlow" sourceRef="managerTask" targetRef="managerJudgeTask"/>
+      <sequenceFlow id="flowEnd" name="通过" sourceRef="managerJudgeTask" targetRef="endLeave">
+        <conditionExpression xsi:type="tFormalExpression"><![CDATA[${checkResult=='通过'}]]></conditionExpression>
+      </sequenceFlow>
+      <sequenceFlow id="rejectFlow" name="拒绝" sourceRef="managerJudgeTask" targetRef="sendMail">
+        <conditionExpression xsi:type="tFormalExpression"><![CDATA[${checkResult=='拒绝'}]]></conditionExpression>
+      </sequenceFlow>
+      <serviceTask id="sendMail" flowable:exclusive="true" name="发送失败提示" isForCompensation="true" flowable:class="org.javaboy.flowable.AskForLeaveFail"/>
+      <sequenceFlow id="endFlow" sourceRef="sendMail" targetRef="askForLeaveFail"/>
+      <endEvent id="askForLeaveFail" name="请假失败"/>
+      <sequenceFlow id="zuzhangTask_zuzhangJudeTask" sourceRef="zuzhangTask" targetRef="zuzhangJudeTask"/>
+    </process>
+</definitions>

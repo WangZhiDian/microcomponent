@@ -1,5 +1,6 @@
 server:
   port: 8080
+  # tomcat 容器配置
   tomcat:
     # tomcat的URI编码
     uri-encoding: UTF-8
@@ -11,6 +12,22 @@ server:
       # Tomcat启动初始化的线程数，默认值10
       min-spare: 100
     connection-timeout: 600000
+
+  # undertow 配置
+  undertow:
+    # HTTP post内容的最大大小。当值为-1时，默认值为大小是无限的
+    max-http-post-size: -1
+    # 以下的配置会影响buffer,这些buffer会用于服务器连接的IO操作,有点类似netty的池化内存管理
+    # 每块buffer的空间大小,越小的空间被利用越充分
+    buffer-size: 512
+    # 是否分配的直接内存
+    direct-buffers: true
+    threads:
+      # 设置IO线程数, 它主要执行非阻塞的任务,它们会负责多个连接, 默认设置每个CPU核心一个线程
+      io: 8
+      # 阻塞任务线程池, 当执行类似servlet请求阻塞操作, undertow会从这个线程池中取得线程,它的值设置取决于系统的负载
+      worker: 256
+
 spring:
   application:
     name: price-control
@@ -29,6 +46,10 @@ system:
         cluster: false
       elasticsearch: true
 
+flowable:
+  #关闭定时任务JOB
+  async-executor-activate: false
+  #将databaseSchemaUpdate设置为true。当flowable发现库与数据库表结构不一致时，会自动将数据库表结构升级至新版本。
+  database-schema-update: true
 
-http:
-  url: 10.11.2.7:8080/select/sight/info
+

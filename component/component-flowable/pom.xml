@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>microcomponent</artifactId>
+        <groupId>com.meng</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.meng</groupId>
+    <artifactId>component-flowable</artifactId>
+    <packaging>jar</packaging>
+
+    <properties>
+        <cobertura.skip>true</cobertura.skip>
+    </properties>
+
+    <dependencies>
+        <!-- flowable工作流 -->
+        <dependency>
+            <groupId>org.flowable</groupId>
+            <artifactId>flowable-spring-boot-starter</artifactId>
+            <version>6.5.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.flowable</groupId>
+            <artifactId>flowable-json-converter</artifactId>
+            <version>6.5.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.meng</groupId>
+            <artifactId>component-mybatis</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+
+<!--        <dependency>
+            <groupId>com.meng</groupId>
+            <artifactId>component-kafka-producer</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>-->
+
+        <dependency>
+            <groupId>com.meng</groupId>
+            <artifactId>commons-module</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>
+                                ../../deploy/config
+                            </directory>
+                            <includes>
+                                <include>redis.properties</include>
+                                <include>redis-cluster.properties</include>
+                            </includes>
+                            <followSymlinks>false</followSymlinks>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+<!--                            <target>
+                                <property name="config-deploy-dir">
+                                    ../../deploy/config
+                                </property>
+
+                                <mkdir dir="${config-deploy-dir}"/>
+
+                                <copy file="${project.basedir}/src/main/resources/config/redis.properties"
+                                      todir="${config-deploy-dir}"/>
+                                <copy file="${project.basedir}/src/main/resources/config/redis-cluster.properties"
+                                      todir="${config-deploy-dir}"/>
+                            </target>-->
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>config/*</exclude>
+                </excludes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
+    </build>
+
+</project>

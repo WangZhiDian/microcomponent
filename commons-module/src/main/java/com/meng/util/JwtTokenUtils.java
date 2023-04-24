@@ -21,12 +21,12 @@ public final class JwtTokenUtils {
     /**
      * create token
      *
-     * @param audience  :
-     * @param claimMap  :
-     * @param subject   :
+     * @param audience  : 监听者
+     * @param claimMap  : 加密的数据，map形式存储
+     * @param subject   : 主题
      * @param issuer    :
-     * @param ttl       :
-     * @param secretKey :
+     * @param ttl       : 过期时间
+     * @param secretKey : 加密key，长度有要求，需要比较长
      * @return String :
      */
     public static String createToken(String audience, Map<String, Object> claimMap,
@@ -42,9 +42,7 @@ public final class JwtTokenUtils {
         if (ttl >= 0) {
             expiresDate = new Date(createDate.getTime() + ttl);
         }
-
         Key key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
-
         JwtBuilder builder = Jwts.builder()
                 .setId(UUID.randomUUID().toString())
                 .setAudience(audience)

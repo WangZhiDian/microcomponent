@@ -17,6 +17,8 @@
         <module>component/component-kafka-consumer</module>
         <module>component/component-es</module>
         <module>component/component-minio</module>
+        <module>component/component-flowable</module>
+        <module>component/component-quartz</module>
         <module>mybatis-module</module>
         <module>mybatis-generator-module</module>
         <module>service-module</module>
@@ -110,6 +112,7 @@
         <minio.version>8.4.2</minio.version>
        <!-- <minio.version>8.5.2</minio.version>-->
         <okhttp.version>4.9.0</okhttp.version>
+        <kaptcha.version>2.3.3</kaptcha.version>
     </properties>
 
     <!-- 子模块继承之后，提供作用：
@@ -125,6 +128,10 @@
                     <exclusion>
                         <groupId>com.squareup.okhttp3</groupId>
                         <artifactId>okhttp</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-json</artifactId>
                     </exclusion>
                 </exclusions>
                 <type>pom</type>

@@ -23,7 +23,7 @@ public class MinioConfig {
     String bucket;
 
 
-    @Bean("minioClients")
+    @Bean("minioClient")
     public MinioClient minioClients() {
         MinioClient minioClient =
             MinioClient.builder()

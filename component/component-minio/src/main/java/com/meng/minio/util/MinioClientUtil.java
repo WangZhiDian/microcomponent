@@ -20,8 +20,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -38,7 +36,7 @@ import java.util.List;
 @Slf4j
 public class MinioClientUtil {
 
-    @Resource(name = "minioClients")
+    @Resource(name = "minioClient")
     private MinioClient minioClient;
 
     private static final int DEFAULT_EXPIRY_TIME = 7 * 24 * 3600;
