@@ -1,0 +1,4 @@
+shell 获取格式化时间：https://www.codenong.com/cs106297378/
+current_time=`date "+%Y-%m-%d %H:%M"`
+echo $current_time
+current_second=`date -d "$current_time" +%s`

@@ -19,6 +19,7 @@
         <module>component/component-minio</module>
         <module>component/component-flowable</module>
         <module>component/component-quartz</module>
+        <module>component/component-neo4j</module>
         <module>mybatis-module</module>
         <module>mybatis-generator-module</module>
         <module>service-module</module>
