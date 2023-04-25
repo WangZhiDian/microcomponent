@@ -120,6 +120,13 @@
             <version>${kaptcha.version}</version>
         </dependency>
 
+        <!-- 高性能队列 -->
+        <dependency>
+            <groupId>com.lmax</groupId>
+            <artifactId>disruptor</artifactId>
+            <version>${disruptor.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

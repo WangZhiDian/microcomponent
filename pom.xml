@@ -113,6 +113,7 @@
        <!-- <minio.version>8.5.2</minio.version>-->
         <okhttp.version>4.9.0</okhttp.version>
         <kaptcha.version>2.3.3</kaptcha.version>
+        <disruptor.version>3.4.2</disruptor.version>
     </properties>
 
     <!-- 子模块继承之后，提供作用：

@@ -19,7 +19,7 @@ import static com.meng.util.CommonUtils.formatExceptionInfo;
 
 /**
  * quartz manager
- *
+ * 该方式还并未持久化，重启后，运行中的定时任务会被清除掉
  * @author : sunyuecheng
  */
 @Component
