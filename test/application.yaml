@@ -45,6 +45,9 @@ system:
         sentinel: false
         cluster: false
       elasticsearch: true
+  context:
+    switch:
+      websocket: false
 
 flowable:
   #关闭定时任务JOB

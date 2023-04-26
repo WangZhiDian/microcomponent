@@ -23,6 +23,7 @@
         <module>mybatis-module</module>
         <module>mybatis-generator-module</module>
         <module>service-module</module>
+        <module>websocket-module</module>
         <module>access-module</module>
     </modules>
 <!--    <dependencies>
