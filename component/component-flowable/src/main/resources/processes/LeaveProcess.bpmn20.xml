@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:flowable="http://flowable.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.flowable.org/processdef">
+  <process id="Leave" name="LeaveProcess" isExecutable="true">
+    <userTask id="leaveTask" name="请假" flowable:assignee="${leaveTask}"/>
+    <serviceTask id="serviceTask1" name="空任务1" flowable:delegateExpression="${myServiceTask}"/>
+    <userTask id="managerTask" name="经理审核"/>
+    <exclusiveGateway id="managerJudgeTask"/>
+    <endEvent id="endLeave" name="结束"/>
+    <startEvent id="startLeave" name="开始"/>
+    <sequenceFlow id="modeFlow" sourceRef="leaveTask" targetRef="serviceTask2"/>
+    <sequenceFlow id="flowStart" sourceRef="startLeave" targetRef="serviceTask1"/>
+    <sequenceFlow id="jugdeFlow" sourceRef="managerTask" targetRef="managerJudgeTask"/>
+    <sequenceFlow id="flowEnd" name="通过" sourceRef="managerJudgeTask" targetRef="endLeave">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${checkResult=='通过'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="rejectFlow" name="驳回" sourceRef="managerJudgeTask" targetRef="endLeave">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${checkResult=='驳回'}]]></conditionExpression>
+    </sequenceFlow>
+    <!--<sequenceFlow id="serviceTask1Flow" sourceRef="serviceTask1" targetRef="leaveTask"/>-->
+    <serviceTask id="serviceTask2" name="空任务2" flowable:exclusive="true" flowable:delegateExpression="${myServiceTask}"/>
+    <!--<sequenceFlow id="serviceTask2Flow" sourceRef="serviceTask2" targetRef="managerTask"/>-->
+    <sequenceFlow id="sid-b69a8340-416d-4115-b4c0-e80fd4116dcb" sourceRef="serviceTask1" targetRef="serviceTask1-5"/>
+    <sequenceFlow id="sid-46061e14-8167-4fda-a123-5ce708875a75" sourceRef="serviceTask2" targetRef="managerTask"/>
+    <serviceTask id="serviceTask1-5" name="空任务1-5" flowable:exclusive="true" flowable:delegateExpression="${myServiceTask2}"/>
+    <sequenceFlow id="sid-864b1baf-e027-43c0-a215-cdd95fd52c66" sourceRef="serviceTask1-5" targetRef="leaveTask"/>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_process">
+    <bpmndi:BPMNPlane bpmnElement="Leave" id="BPMNPlane_process">
+      <bpmndi:BPMNShape bpmnElement="leaveTask" id="BPMNShape_leaveTask">
+        <omgdc:Bounds height="79.99999999999999" width="100.0" x="550.9044" y="96.53447"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="serviceTask1" id="BPMNShape_serviceTask">
+        <omgdc:Bounds height="79" width="100.0" x="355.8492" y="97.03447"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="managerTask" id="BPMNShape_managerTask">
+        <omgdc:Bounds height="80.0" width="100.0" x="1078.8889" y="108.111115"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="managerJudgeTask" id="BPMNShape_managerJudgeTask">
+        <omgdc:Bounds height="40.0" width="40.0" x="1269.8334" y="169.77777"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endLeave" id="BPMNShape_endLeave">
+        <omgdc:Bounds height="28.0" width="28.0" x="1354.8334" y="175.77777"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="startLeave" id="BPMNShape_startLeave">
+        <omgdc:Bounds height="30.0" width="30.0" x="161.21642" y="133.1111"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endLeave2" id="BPMNShape_endLeave2">
+        <omgdc:Bounds height="28.0" width="28.0" x="617.5" y="73.32098285753572"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flowEnd" id="BPMNEdge_flowEnd">
+        <omgdi:waypoint x="1309.4551" y="190.15598"/>
+        <omgdi:waypoint x="1354.8337" y="189.86694"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="rejectFlow" id="BPMNEdge_rejectFlow">
+        <omgdi:waypoint x="1290.1995" y="170.14386"/>
+        <omgdi:waypoint x="1289.9265" y="129.09845"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="modeFlow" id="BPMNEdge_modeFlow">
+        <omgdi:waypoint x="650.90436" y="136.53447"/>
+        <omgdi:waypoint x="776.77515" y="136.53445"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flowStart" id="BPMNEdge_flowStart">
+        <omgdi:waypoint x="183.7164" y="148.11111"/>
+        <omgdi:waypoint x="355.84918" y="156.28447"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="jugdeFlow" id="BPMNEdge_jugdeFlow">
+        <omgdi:waypoint x="1178.8889" y="148.32478"/>
+        <omgdi:waypoint x="1270.2476" y="190.19194"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="edge-cab370f8-5e29-4dd9-95a8-bafc0a5d8dee" bpmnElement="sid-53345da5-c280-48db-a3e1-2d725a9d35e8">
+        <omgdi:waypoint x="455.84918" y="136.53445"/>
+        <omgdi:waypoint x="550.9045" y="136.53448"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="sid-c6e27c0e-df4d-46fb-9cd3-cdc83374971f" bpmnElement="serviceTask2">
+        <omgdc:Bounds x="776.77515" y="97.034454" width="100.0" height="79.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="edge-56101de1-4723-4f00-ba64-e6668a5e6db7" bpmnElement="sid-34936e05-29b9-4a1e-8d34-f6e2a1b5d4cc">
+        <omgdi:waypoint x="876.7751" y="142.0"/>
+        <omgdi:waypoint x="1078.8889" y="148.11111"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="edge-7ea0eabc-082b-49d7-875d-26ab9ad54a05" bpmnElement="sid-b69a8340-416d-4115-b4c0-e80fd4116dcb">
+        <omgdi:waypoint x="405.8492" y="168.11111"/>
+        <omgdi:waypoint x="460.9044" y="366.5345"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="edge-89a0b414-94b4-4c61-a14a-6c929c52d731" bpmnElement="sid-46061e14-8167-4fda-a123-5ce708875a75">
+        <omgdi:waypoint x="876.77515" y="136.53445"/>
+        <omgdi:waypoint x="1078.8889" y="128.11111"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="sid-750425ae-face-4742-84ff-03233d996e83" bpmnElement="serviceTask1-5">
+        <omgdc:Bounds x="453.81488" y="317.92477" width="100.0" height="79.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="edge-94885b72-538f-47c8-87de-7d95fd8d0bbb" bpmnElement="sid-864b1baf-e027-43c0-a215-cdd95fd52c66">
+        <omgdi:waypoint x="528.8149" y="317.92477"/>
+        <omgdi:waypoint x="575.9044" y="176.53447"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
