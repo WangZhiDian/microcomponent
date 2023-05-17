@@ -209,4 +209,19 @@
         </plugins>
     </build>
 
+<!--    <distributionManagement>
+
+&lt;!&ndash;        <repository>
+            <id>nexus-release</id>
+            <url>http://192.168.40.171:8081/repository/mvn-hosted/</url>
+            <name>nexus-release</name>
+        </repository>&ndash;&gt;
+
+        <snapshotRepository>
+            <id>maven-snapshots</id>
+            <url>http://172.16.40.70:8081/repository/maven-snapshots/</url>
+            <name>maven-snapshots</name>
+        </snapshotRepository>
+
+    </distributionManagement>-->
 </project>

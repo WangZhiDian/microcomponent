@@ -1,0 +1,90 @@
+安装docker的镜像私仓库 harbor
+csdn:https://blog.csdn.net/m0_50111062/article/details/126293836
+一 下载安装docker-compose：
+1 curl -L https://github.com/docker/compose/releases/download/1.16.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+#慢的话可以用这个
+sudo curl -L https://get.daocloud.io/docker/compose/releases/download/1.25.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+2 chmod +x /usr/local/bin/docker-compose
+3 docker-compose --version
+
+安装高版本docker-compose：
+[root@harbor_node01 ~]# DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
+[root@harbor_node01 ~]# mkdir -p $DOCKER_CONFIG/cli-plugins
+//如果下载不了https，将https修改为http
+[root@harbor_node01 ~]# curl -SL https://github.com/docker/compose/releases/download/v2.7.0/docker-compose-linux-x86_64 -o $DOCKER_CONFIG/cli-plugins/docker-compose
+//给该二进制文件执行权限,如果找不到文件，则查看默认路径：echo $DOCKER_CONFIG
+[root@harbor_node01 ~]# chmod +x .docker/cli-plugins/docker-compose
+//将文件移动到/usr/local/bin
+cp $DOCKER_CONFIG/cli-plugins/docker-compose /usr/local/bin
+//查看版本
+[root@harbor_node01 ~]# docker-compose version
+Docker Compose version v2.7.0
+
+docker-compose常用命令：https://blog.csdn.net/weixin_44336161/article/details/126446338
+docker compose build
+docker compose up
+docker compose stop
+docker compose start
+docker compose restart
+docker compose down
+docker compose images
+docker compose ps
+docker compose ls
+docker compose kill
+docker compose logs
+docker compose pause
+docker compose unpause
+docker compose port
+docker compose pull
+docker compose push
+docker compose rm
+docker compose run
+docker-compose scale
+docker compose top
+docker compose version
+。。。
+
+二  安装harbor：
+//下载harbor压缩包
+[root@harbor_node01 ~]# wget https://github.com/goharbor/harbor/releases/download/v2.4.3/harbor-offline-installer-v2.4.3.tgz
+//把harbor解压至/usr/local目录下
+[root@harbor_node01 ~]# tar xf harbor-offline-installer-v2.4.3.tgz -C /usr/local/
+//进入harbor目录
+[root@harbor_node01 ~]# cd /usr/local/harbor/
+[root@harbor_node01 harbor]# ls
+common.sh  harbor.v2.4.3.tar.gz  harbor.yml.tmpl  install.sh  LICENSE  prepare
+//把配置文件模板拷贝一份出来
+root@harbor_node01 harbor]# cp harbor.yml.tmpl harbor.yml
+//查看当前主机的主机名全称
+[root@harbor_node01 harbor]# hostname
+harbor_node01.example.com
+[root@harbor_node01 harbor]# vim harbor.yml
+..........
+hostname: harbor_node01.example.com		//这里的主机名换成本机的主机名或IP地址
+.........
+#https:									//把https这行及子行都注释掉，因为没有弄ssl证书加密
+  # https port for harbor, default is 443
+  #port: 443
+  # The path of cert and key files for nginx
+  #certificate: /your/certificate/path
+  #private_key: /your/private/key/path
+.........
+//启动harbor
+[root@harbor_node01 harbor]# ./install.sh
+..........启动过程略.............
+✔ ----Harbor has been installed and started successfully.----	 //显示此行说明启动成功！
+//查看harbor运行起来的容器
+[root@harbor_node01 harbor]# docker ps
+CONTAINER ID   IMAGE                                COMMAND                  CREATED              STATUS                    PORTS                                   NAMES
+1602065b6558   goharbor/nginx-photon:v2.4.3         "nginx -g 'daemon of…"   About a minute ago   Up 51 seconds (healthy)   0.0.0.0:80->8080/tcp, :::80->8080/tcp   nginx
+807abe81e1e8   goharbor/harbor-jobservice:v2.4.3    "/harbor/entrypoint.…"   About a minute ago   Up 52 seconds (healthy)                                           harbor-jobservice
+525886fff9b0   goharbor/harbor-core:v2.4.3          "/harbor/entrypoint.…"   About a minute ago   Up 53 seconds (healthy)                                           harbor-core
+9d40e1cf4131   goharbor/harbor-db:v2.4.3            "/docker-entrypoint.…"   About a minute ago   Up 54 seconds (healthy)                                           harbor-db
+e7405e5ba6b1   goharbor/registry-photon:v2.4.3      "/home/harbor/entryp…"   About a minute ago   Up 54 seconds (healthy)                                           registry
+a86ae3d1848e   goharbor/redis-photon:v2.4.3         "redis-server /etc/r…"   About a minute ago   Up 54 seconds (healthy)                                           redis
+814e2bfc178e   goharbor/harbor-registryctl:v2.4.3   "/home/harbor/start.…"   About a minute ago   Up 54 seconds (healthy)                                           registryctl
+340de1da037f   goharbor/harbor-portal:v2.4.3        "nginx -g 'daemon of…"   About a minute ago   Up 54 seconds (healthy)                                           harbor-portal
+c3eceadcb92b   goharbor/harbor-log:v2.4.3           "/bin/sh -c /usr/loc…"   About a minute ago   Up 59 seconds (healthy)   127.0.0.1:1514->10514/tcp               harbor-log
+
+Harbor默认用户名:admin Harbor默认密码:Harbor12345
+

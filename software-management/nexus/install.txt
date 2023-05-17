@@ -1,0 +1,34 @@
+
+教程：http://c.biancheng.net/nexus/download-install.html
+
+1 下载：https://help.sonatype.com/repomanager2/download#Download-NexusRepositoryManager2OSS
+nexus-2.15.1-02-bundle.tar.gz  -- linux 版本
+2 上传到服务器并解压：
+tar -xzvf nexus-2.15.1-02-bundle.tar.gz
+
+其中：
+nexus-2.14.20-02：该目录中包含了 Nexus 2.x 运行所需要的文件，如启动脚本、依赖 jar 包等。
+sonatype-work：该目录中包含了 Nexus 2.x 生成的配置文件、日志文件等。
+3
+4
+5
+注意：默认密码：admin  admin123
+
+
+nexus3 安装：
+1 下载： https://blog.csdn.net/csdnerM/article/details/127923675
+wget https://download.sonatype.com/nexus/3/nexus-3.53.1-02-unix.tar.gz
+下载nexus-3.53.1-02-unix.tar.gz
+2 解压： tar -xzvf nexus-3.53.1-02-unix.tar.gz
+3 进入： cd /opt/nexus/nexus-3.53.1-02/bin
+start 是后台启动，日志以文件形式保存；
+run 是当前进程启动，直接打印在控制台；
+stop 是停止服务；
+restart 是重启服务；
+status 是查看服务状态
+4 后台启动启动： ./nexus start
+5 默认端口配置修改：vim /opt/nexus/nexus-3.53.1-02/etc/nexus-default.properties
+
+注意：默认密码在：/opt/nexus/sonatype-work/nexus3/admin.password
+
+

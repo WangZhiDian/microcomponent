@@ -26,10 +26,10 @@ skip-name-resolve
 
 
 2 docker 安装mysql8
-[root@MyDB1 ~]# mkdir -p /mydata/mysql8/data
-[root@MyDB1 ~]# mkdir -p /mydata/mysql8/mysql-files
-[root@MyDB1 ~]# mkdir -p /mydata/mysql8/conf
-[root@MyDB1 ~]# mkdir -p /mydata/mysql8/logs
+mkdir -p /mydata/mysql8/data
+mkdir -p /mydata/mysql8/mysql-files
+mkdir -p /mydata/mysql8/conf
+mkdir -p /mydata/mysql8/logs
 
 命令：
 docker run --restart=always -d --name mysql-tourism -p 3306:3306 \

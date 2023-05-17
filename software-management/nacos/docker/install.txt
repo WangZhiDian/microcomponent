@@ -1,0 +1,42 @@
+
+问题：centos7.5 解决缺少libstdc++.so.6库的原因及解决办法
+https://blog.csdn.net/qianjiu520/article/details/129417730
+
+1、先加载所有安装包
+
+yum repolist
+
+2、查看哪个安装包包含该库：
+
+yum provides libstdc++.so.6
+
+可以看到安装包 libstdc+±4.8.5-36.el7.i686
+
+3、安装libstdc+±4.8.5-36.el7.i686
+
+yum install libstdc+±4.8.5-36.el7.i686 -y
+
+如果报错：
+解决办法：
+
+1、升级安装包
+
+yum update libstdc+±4.8.5-28.el7.x86_64 -y
+
+2、修复/lib/ld-linux.so.2: bad ELF interpreter: No such file or directory问题
+
+yum install glibc.i686 -y
+
+3、 修复error while loading shared libraries: libz.so.1: cannot open shared object file: No such file or directory
+
+yum install zlib.i686 -y
+
+到此就解决了缺少共享库到问题
+
+参照文档:
+
+https://blog.csdn.net/qiaoliang328/article/details/79266008
+
+
+
+

@@ -25,6 +25,11 @@ public class ApiResult<T> implements Serializable {
         return restResult(object, CommonConstants.SUCCESS, "");
     }
 
+    public ApiResult<T> success2(T data) {
+        return restResult(data, CommonConstants.SUCCESS, "");
+    }
+
+
     public static ApiResult<String> fail(String code, String msg) {
         return restResult("", code, msg);
     }

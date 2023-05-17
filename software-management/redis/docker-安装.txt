@@ -10,8 +10,11 @@ docker run -p 6379:6379 --name redis -v /mydata/redis/data:/data \
 -v /mydata/redis/conf/redis.conf:/etc/redis/redis.conf -d redis \
 redis-server /etc/redis/redis.conf
 
+mkdir -p /mydata/redis/data
+mkdir -p /mydata/redis/conf/
+
 简单创建，无挂载：
-docker run -itd --name redis-6379 -p 6379:6379 redis --requirepass 123456
+docker run -itd --name redis-6379 -p 6379:6379 redis --requirepass sdt@2022
 
 设置docker重启后的容器自动重启：
 docker update redis --restart=always
