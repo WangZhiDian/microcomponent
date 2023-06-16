@@ -1,0 +1,57 @@
+一 单独安装postgres：
+1 拉取postgresql镜像。
+docker pull postgres:12
+
+3. 创建volumes
+mkdir -p /data/postgres/data
+4. 运行postgres
+docker run --name postgres --restart=always -e POSTGRES_PASSWORD=postgres -p 5432:25432 -v /data/postgres/data:/var/lib/postgresql/data -d postgres:12
+或者
+docker run --name postgres --restart=always -p 5432:5432 -e POSTGRES_PASSWORD=postgres -e PGDATA=/var/lib/postgresql/data/pgdata -v /data/postgres/data:/var/lib/postgresql/data postgres
+
+5 进入容器，登录数据库
+docker exec -it postgres bash
+// 登录数据库
+psql -U postgres -W
+
+
+二 安装postgis，自带postgres：https://blog.csdn.net/qq_43932825/article/details/128574451
+有两种，一种是单独docker先安装postgres，然后登录该容器，在容器中安装postgis插件扩展
+第二种是直接安装postgis的镜像，该镜像自带postgres，选择第二种，方便快捷
+
+1 搜索支持的postgis镜像：
+docker search postgis
+
+2 下载需要的镜像，如：
+docker pull postgis/postgis:12-3.2
+docker pull kartoza/postgis
+
+3 创建数据挂在目录：
+mkdir -p /opt/data/pgdata
+mkdir -p /opt/data/postGisData
+
+4 启动该镜像：
+docker run --name postgis -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres \
+-e POSTGRES_DB=gis_db -p 5433:5432 -v /opt/data/postGisData:/var/lib/postgis/data \
+-v /opt/data/pgdata:/var/lib/postgresql/data -d kartoza/postgis
+
+
+说明：
+--privileged=true 权限私有
+--restart=always  开机启动
+
+docker run --name postgis --privileged=true --restart=always -e POSTGRES_USER=postgres \
+-e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=gis_db -p 5433:5432 -v /docker/postgis/data:/var/lib/postgis/data -v /docker/postgresql/data:/var/lib/postgresql/data -d postgis/postgis:12-3.2
+
+docker run -t --name postgresForFzysV2 --restart always  -e POSTGRES_USER=postgres
+-e POSTGRES_PASSWORD=123! -e ALLOW_IP_RANGE=0.0.0.0/0 -p 5432:5432
+-v /home/fzysV2/postgresql:/var/lib/postgresql/data -d kartoza/postgis
+
+
+
+
+
+
+
+
+

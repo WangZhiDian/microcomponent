@@ -35,6 +35,13 @@ spring:
     multipart:
       max-file-size: 10000MB
       max-request-size: 10000MB
+  security:
+    user:
+      name: wang
+      password: dian
+      roles: admin
+
+
 
 system:
   bean:
@@ -55,4 +62,9 @@ flowable:
   #将databaseSchemaUpdate设置为true。当flowable发现库与数据库表结构不一致时，会自动将数据库表结构升级至新版本。
   database-schema-update: true
 
+logging:
+  level:
+    org:
+      springframework:
+        security: debug
 

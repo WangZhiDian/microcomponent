@@ -31,4 +31,6 @@ status 是查看服务状态
 
 注意：默认密码在：/opt/nexus/sonatype-work/nexus3/admin.password
 
-
+问题：
+需要用本地仓库打的包替换代理仓库拉下来的jar包，可以定义一个本地仓库，在组仓库设置时，把本地仓库位置，放在外部仓库的前面：
+https://www.656463.com/wenda/nexuszdlgbtdcckbhxtdjar_553

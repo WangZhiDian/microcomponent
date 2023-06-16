@@ -7,8 +7,6 @@ import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
  * Controller 可以使用swagger注解，在服务启动后，通过端口访问到接口文档。
  @ApiOperation :
@@ -29,7 +27,8 @@ import javax.servlet.http.HttpServletRequest;
 如果只有一个入参或者响应也可以不用 @ApiImplicitParams 或 @ApiResponses
 可以直接使用 @ApiImplicitParam 以及 @ApiResponse 一般都使用复数形式使得保持一致
 
-
+swagger的接口查看地址：
+http://localhost:8080/swagger-ui.html#/
  *
  */
 //@Api 用在总的 controller 上方value 即名称，也可以默认不写value ，默认会给与 value
