@@ -1,0 +1,45 @@
+一：安装8u251
+https://blog.csdn.net/adminBfl/article/details/119912492
+
+# 解压jdk-8u271-linux-x64.tar.gz
+tar -zxvf jdk-8u271-linux-x64.tar.gz
+# 移动到/usr/local/ 重命名为java8
+mv jdk1.8.0_271 /usr/local/java8
+
+# 配置环境变量
+vim /etc/profile
+
+export JAVA_HOME=/usr/local/java8
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+export PATH=$JAVA_HOME/bin:$PATH
+# 重启profile
+source /etc/profile
+# 赋予权限
+chmod 777 /usr/local/java8/bin/java
+
+# 检查版本
+java -version
+
+
+二：安装8u271：
+https://blog.csdn.net/adminBfl/article/details/119912492
+
+
+# 解压jdk-8u271-linux-x64.tar.gz
+tar -zxvf jdk-8u271-linux-x64.tar.gz
+# 移动到/usr/local/ 重命名为java8
+mv jdk1.8.0_271 /usr/local/java8
+
+# 配置环境变量
+vim /etc/profile
+
+export JAVA_HOME=/usr/local/java8
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+export PATH=$JAVA_HOME/bin:$PATH
+# 重启profile
+source /etc/profile
+# 赋予权限
+chmod 777 /usr/local/java8/bin/java
+
+# 检查版本
+java -version

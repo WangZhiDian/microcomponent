@@ -9,4 +9,5 @@ https://www.oracle.com/java/technologies/javase/javase8u211-later-archive-downlo
 该安装可能对部分jdk版本，比如jdk8有效，对高版本的jdk可能无效，因为jdk在/etc/profile中的配置内容可能会变化
 
 
-
+二：安装8u251时发现启动java -version 需要安装 glibc.i686等信息
+安装8u271 时，不用安装这些依赖件

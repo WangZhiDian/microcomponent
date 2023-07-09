@@ -48,6 +48,11 @@ docker run -t --name postgresForFzysV2 --restart always  -e POSTGRES_USER=postgr
 -v /home/fzysV2/postgresql:/var/lib/postgresql/data -d kartoza/postgis
 
 
+4 启动该镜像：
+docker run --name postgis --restart=always -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=jetlinks \
+-e POSTGRES_DB=postgres -p 5432:5432 -v /opt/postgresql/docker_data/postgis_data:/var/lib/postgis/data \
+-v /opt/postgresql/docker_data/postgres_data:/var/lib/postgresql/data -d postgis/postgis:12-3.2
+
 
 
 
