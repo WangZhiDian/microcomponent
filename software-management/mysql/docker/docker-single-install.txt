@@ -39,7 +39,7 @@ docker run --restart=always -d --name mysql-tourism -p 3306:3306 \
 -v /mydata/mysql8/logs \
 -e MYSQL_ROOT_PASSWORD=mobile@2023 mysql:8.0.22
 
-my.conf：
+my.cnf：
 
 [mysqld]
 pid-file        = /var/run/mysqld/mysqld.pid

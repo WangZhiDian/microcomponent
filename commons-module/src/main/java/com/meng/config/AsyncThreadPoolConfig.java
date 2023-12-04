@@ -27,6 +27,7 @@ public class AsyncThreadPoolConfig {
         executor.setQueueCapacity(200);
         executor.setKeepAliveSeconds(60);
         executor.setThreadNamePrefix("serviceTaskExecutor-");
+
         executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
         return executor;
     }

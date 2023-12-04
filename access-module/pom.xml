@@ -32,7 +32,7 @@
                  </exclusion>
              </exclusions>-->
         </dependency>
-        <!-- web 容器使用 undertow -->
+        <!-- web 容器使用 undertow 需要在上述引入web模块时，排除tomcat容器的引入-->
         <!--<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-undertow</artifactId>

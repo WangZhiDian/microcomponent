@@ -41,7 +41,10 @@ docker run --name postgis -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgre
 --restart=always  开机启动
 
 docker run --name postgis --privileged=true --restart=always -e POSTGRES_USER=postgres \
--e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=gis_db -p 5433:5432 -v /docker/postgis/data:/var/lib/postgis/data -v /docker/postgresql/data:/var/lib/postgresql/data -d postgis/postgis:12-3.2
+-e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=gis_db -p 5433:5432 \
+-v /docker/postgis/data:/var/lib/postgis/data \
+-v /docker/postgresql/data:/var/lib/postgresql/data \
+-d postgis/postgis:12-3.2
 
 docker run -t --name postgresForFzysV2 --restart always  -e POSTGRES_USER=postgres
 -e POSTGRES_PASSWORD=123! -e ALLOW_IP_RANGE=0.0.0.0/0 -p 5432:5432

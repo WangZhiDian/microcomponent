@@ -12,6 +12,7 @@
         <module>practice-module</module>
         <module>commons-module</module>
         <module>component/component-mybatis</module>
+        <module>component/component-mybatis-plus</module>
         <module>component/component-redis</module>
         <module>component/component-kafka-producer</module>
         <module>component/component-kafka-consumer</module>
@@ -22,6 +23,7 @@
         <module>component/component-neo4j</module>
         <module>component/component-auth</module>
         <module>component/component-camunda</module>
+        <module>component/component-postgres</module>
         <module>mybatis-module</module>
         <module>mybatis-generator-module</module>
         <module>service-module</module>

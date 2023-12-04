@@ -50,20 +50,20 @@
         <omgdc:Bounds height="28.0" width="28.0" x="795.0" y="164.0"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="principalPass" id="BPMNShape_principalPass">
-        <omgdc:Bounds height="80.0" width="100.0" x="615.0" y="280.0"/>
+        <omgdc:Bounds height="80.0" width="100.0" x="615.0" y="405.0"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="judgeLess" id="BPMNEdge_judgeLess">
         <omgdi:waypoint x="684.5095911949685" y="178.43356643356645"/>
         <omgdi:waypoint x="795.0000829380081" y="178.04860604497966"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="principalNotPassFlow" id="BPMNEdge_principalNotPassFlow">
-        <omgdi:waypoint x="615.0" y="320.0"/>
-        <omgdi:waypoint x="279.9708609547486" y="320.0"/>
+        <omgdi:waypoint x="615.0" y="445.0"/>
+        <omgdi:waypoint x="279.97086" y="435.0"/>
         <omgdi:waypoint x="279.9708609547486" y="217.95000000000002"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="judgeMore" id="BPMNEdge_judgeMore">
         <omgdi:waypoint x="665.4326241134752" y="197.51043586109145"/>
-        <omgdi:waypoint x="665.1411660777385" y="280.0"/>
+        <omgdi:waypoint x="665.1412" y="405.0"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="teacherNotPassFlow" id="BPMNEdge_teacherNotPassFlow">
         <omgdi:waypoint x="486.9446358140222" y="138.0"/>
@@ -72,8 +72,8 @@
         <omgdi:waypoint x="279.9708609547486" y="138.0"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="principalCheck" id="BPMNEdge_principalCheck">
-        <omgdi:waypoint x="714.9499999999886" y="319.64664310954066"/>
-        <omgdi:waypoint x="806.5" y="319.0"/>
+        <omgdi:waypoint x="714.95" y="444.64664"/>
+        <omgdi:waypoint x="802.0" y="445.0"/>
         <omgdi:waypoint x="808.7518112709728" y="191.94785201600882"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="applyFlow" id="BPMNEdge_applyFlow">
